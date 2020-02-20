@@ -5,8 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+
 
 const keycloakService = new KeycloakService();
 
