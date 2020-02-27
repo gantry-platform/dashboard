@@ -33,8 +33,6 @@ export class AppModule implements DoBootstrap {
     keycloakService
       .init(environment.keycloakOptions)
       .then(() => {
-        console.log('[ngDoBootstrap] bootstrap app');
-
         appRef.bootstrap(AppComponent);
       })
       .catch(error => console.error('[ngDoBootstrap] init Keycloak failed', error));

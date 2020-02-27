@@ -15,7 +15,7 @@ const keycloakOptions: KeycloakOptions = {
     checkLoginIframe: false
   },
   enableBearerInterceptor: true,
-  bearerExcludedUrls: ['/assets', '/clients/public']
+  bearerExcludedUrls: ['/assets']
 }
 
 export const environment = {
