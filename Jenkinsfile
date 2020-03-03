@@ -34,7 +34,11 @@ podTemplate(
 
         stage('Build docker image') {
             container('docker') {
-                sh "docker build -t ${app_name} ./${app_name}"
+                if("${branch_name}" == 'master') {
+                    sh "docker build -t ${app_name} --build-arg BUILD=build-prod ./${app_name}"
+                } else {
+                    sh "docker build -t ${app_name} --build-arg BUILD=build-dev ./${app_name}"
+                }
                 sh "docker images ${app_name}"
             }
         }
