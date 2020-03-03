@@ -3,33 +3,26 @@ def label = "worker-${UUID.randomUUID().toString()}"
 podTemplate(
     label: label,
     containers: [
-        containerTemplate(name: 'git', image: 'alpine/git', command: 'cat', ttyEnabled: true),
-        containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
-    ],
-    volumes: [
-        hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+        containerTemplate(name: 'docker', image: 'docker:bind', privileged: true, ttyEnabled: true)
     ]
 ) {
     node(label) {
         def app_name = 'dashboard'
         def tag = '0.1'
-        // def build_number = ${env.BUILD_NUMBER}
         def branch_name = "${BUILD_TYPE}" == 'prod' ? 'master' : 'dev-master'
         def git_url = 'https://gitlab.gantry.ai/gantry/platform/dashboard.git'
         def harbor_url = 'harbor.gantry.ai'
         def harbor_project = 'gantry'
 
         stage('Clone Repository') {
-            container('git') {
-                checkout([
-                    $class: 'GitSCM', 
-                    branches: [[name: "*/${branch_name}"]], 
-                    doGenerateSubmoduleConfigurations: false, 
-                    extensions: [[$class: 'CloneOption', timeout: 300], [$class: 'RelativeTargetDirectory', relativeTargetDir: "./${app_name}"]],
-                    submoduleCfg: [], 
-                    userRemoteConfigs: [[credentialsId: "${GITLAB_CREDENTIALS_ID}", url: "${git_url}"]]
-                ])
-            }
+            checkout([
+                $class: 'GitSCM', 
+                branches: [[name: "*/${branch_name}"]], 
+                doGenerateSubmoduleConfigurations: false, 
+                extensions: [[$class: 'CloneOption', timeout: 300], [$class: 'RelativeTargetDirectory', relativeTargetDir: "./${app_name}"]],
+                submoduleCfg: [], 
+                userRemoteConfigs: [[credentialsId: "${GITLAB_CREDENTIALS_ID}", url: "${git_url}"]]
+            ])
         }
 
         stage('Build docker image') {
