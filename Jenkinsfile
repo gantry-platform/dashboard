@@ -3,16 +3,20 @@ def label = "worker-${UUID.randomUUID().toString()}"
 podTemplate(
     label: label,
     containers: [
-        containerTemplate(name: 'docker', image: 'docker:bind', privileged: true, ttyEnabled: true)
+        containerTemplate(name: 'docker', image: 'docker:dind', privileged: true, ttyEnabled: true)
     ]
 ) {
     node(label) {
         def app_name = 'dashboard'
         def tag = '0.1'
-        def branch_name = "${BUILD_TYPE}" == 'prod' ? 'master' : 'dev-master'
+        def branch_name = "${BUILD_TYPE}" == 'build-prod' ? 'master' : 'dev-master'
+        // Gitlab
         def git_url = 'https://gitlab.gantry.ai/gantry/platform/dashboard.git'
+        def gitlab_credentials_id = "${GITLAB_CREDENTIALS_ID}"
+        // Harbor
         def harbor_url = 'harbor.gantry.ai'
         def harbor_project = 'gantry'
+        def harbor_credentials_id = "${HARBOR_CREDENTIALS_ID}"
 
         stage('Clone Repository') {
             checkout([
@@ -21,16 +25,16 @@ podTemplate(
                 doGenerateSubmoduleConfigurations: false, 
                 extensions: [[$class: 'CloneOption', timeout: 300], [$class: 'RelativeTargetDirectory', relativeTargetDir: "./${app_name}"]],
                 submoduleCfg: [], 
-                userRemoteConfigs: [[credentialsId: "${GITLAB_CREDENTIALS_ID}", url: "${git_url}"]]
+                userRemoteConfigs: [[credentialsId: "${gitlab_credentials_id}", url: "${git_url}"]]
             ])
         }
 
         stage('Build docker image') {
             container('docker') {
                 if("${branch_name}" == 'master') {
-                    sh "docker build -t ${app_name} --build-arg BUILD=build-prod ./${app_name}"
+                    sh "docker build -t ${app_name} --build-arg BUILD_TYPE=${BUILD_TYPE} ./${app_name}"
                 } else {
-                    sh "docker build -t ${app_name} --build-arg BUILD=build-dev ./${app_name}"
+                    sh "docker build -t ${app_name} --build-arg BUILD_TYPE=${BUILD_TYPE} ./${app_name}"
                 }
                 sh "docker images ${app_name}"
             }
@@ -45,24 +49,10 @@ podTemplate(
 
         stage('Push docker image') {
             container('docker') {
-                docker.withRegistry("https://${harbor_url}", "${HARBOR_CREDENTIALS_ID}") {
+                docker.withRegistry("https://${harbor_url}", "${harbor_credentials_id}") {
                     sh "docker push ${harbor_url}/${harbor_project}/${app_name}:${tag}"
                 }
             }
-        }
-
-        stage('Remove docker image') {
-			container('docker') {
-				sh "docker rmi ${app_name}:latest"
-				sh "docker rmi ${harbor_url}/${harbor_project}/${app_name}:${tag}"
-                sh "docker images"
-			}
-		}
-
-        stage('Remove app') {
-            sh "rm -rf ${app_name}"
-            sh "rm -rf ${app_name}@tmp"
-            sh "ls -al"
         }
     }
 }
