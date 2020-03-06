@@ -2,26 +2,26 @@ def g_pod_label = "worker-${UUID.randomUUID().toString()}"
 def g_worker_namespace = "jenkins"
 
 podTemplate(label: g_pod_label, yaml: """
-    apiVersion: v1
-    kind: Pod
-    metadata:
-    name: ${g_pod_label}
-    labels:
-        label: ${g_pod_label}
-        namespace: ${g_worker_namespace}
-    spec:
-    containers:
-        - name: docker
-          image: docker:dind
-          privileged: true
-          tty: true
-    tolerations:
-        - key: "role.gantry.ai"
-          operator: "Equal"
-          value: "build"
-          effect: "NoSchedule"
-    nodeSelector:
-        role.gantry.ai: build
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ${g_pod_label}
+  namespace: ${g_worker_namespace}
+  labels:
+    label: ${g_pod_label}
+spec:
+  containers:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    tty: true
+  tolerations:
+  - key: "role.gantry.ai"
+    operator: "Equal"
+    value: "build"
+    effect: "NoSchedule"
+  nodeSelector:
+    role.gantry.ai: build
 """
 ) {
     node(g_pod_label) {
