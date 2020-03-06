@@ -1,12 +1,30 @@
-def label = "worker-${UUID.randomUUID().toString()}"
+def g_pod_label = "worker-${UUID.randomUUID().toString()}"
+def g_worker_namespace = "jenkins"
 
-podTemplate(
-    label: label,
-    containers: [
-        containerTemplate(name: 'docker', image: 'docker:dind', privileged: true, ttyEnabled: true)
-    ]
+podTemplate(label: g_pod_label, yaml: """
+    apiVersion: v1
+    kind: Pod
+    metadata:
+    name: ${g_pod_label}
+    labels:
+        label: ${g_pod_label}
+        namespace: ${g_worker_namespace}
+    spec:
+    containers:
+        - name: docker
+          image: docker:dind
+          privileged: true
+          tty: true
+    tolerations:
+        - key: "role.gantry.ai"
+          operator: "Equal"
+          value: "build"
+          effect: "NoSchedule"
+    nodeSelector:
+        role.gantry.ai: build
+"""
 ) {
-    node(label) {
+    node(g_pod_label) {
         def app_name = 'dashboard'
         def tag = '0.1'
         def branch_name = "${BUILD_TYPE}" == 'build-prod' ? 'master' : 'dev-master'
@@ -54,5 +72,14 @@ podTemplate(
                 }
             }
         }
+
+        stage ('Archive build output') {
+            sh "echo APP_NAME=${app_name} > jenkins-properties"
+            sh "echo IMAGE=${harbor_url}/${harbor_project}/${app_name}:${tag} >> jenkins-properties"
+            
+            archiveArtifacts 'jenkins-properties'
+            sh 'cat jenkins-properties'
+		}
+
     }
 }
