@@ -1,5 +1,5 @@
 def g_pod_label = "worker-${UUID.randomUUID().toString()}"
-def g_worker_namespace = "jenkins"
+def g_worker_namespace = "jenkins-worker"
 
 podTemplate(label: g_pod_label, yaml: """
 apiVersion: v1
