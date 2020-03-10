@@ -7,7 +7,7 @@ import { KeycloakOptions } from 'keycloak-angular';
 const keycloakOptions: KeycloakOptions = {
   config: {
     url: 'https://keycloak.mgmt.dev.gantry.ai/auth',
-    realm: 'gantry',
+    realm: 'sso-dev',
     clientId: 'dashboard'
   },
   initOptions: {
