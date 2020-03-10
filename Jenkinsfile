@@ -1,7 +1,7 @@
 def g_pod_label = "worker-${UUID.randomUUID().toString()}"
-def g_worker_namespace = "jenkins-worker"
+def g_worker_namespace = "jenkins"
 
-podTemplate(label: g_pod_label, yaml: """
+podTemplate(label: g_pod_label,  yaml: """
 apiVersion: v1
 kind: Pod
 metadata:
@@ -10,11 +10,6 @@ metadata:
   labels:
     label: ${g_pod_label}
 spec:
-  containers:
-  - name: docker
-    image: docker:dind
-    privileged: true
-    tty: true
   tolerations:
   - key: "role.gantry.ai"
     operator: "Equal"
@@ -22,7 +17,10 @@ spec:
     effect: "NoSchedule"
   nodeSelector:
     role.gantry.ai: build
-"""
+""", 
+    containers: [
+        containerTemplate(name: 'docker', image: 'docker:dind', privileged: true, ttyEnabled: true)
+    ]
 ) {
     node(g_pod_label) {
         def app_name = 'dashboard'
