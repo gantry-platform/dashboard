@@ -1,26 +1,28 @@
 def g_pod_label = "worker-${UUID.randomUUID().toString()}"
 def g_worker_namespace = "jenkins"
 
-podTemplate(label: g_pod_label,  yaml: """
-apiVersion: v1
-kind: Pod
-metadata:
-  name: ${g_pod_label}
-  namespace: ${g_worker_namespace}
-  labels:
-    label: ${g_pod_label}
-spec:
-  tolerations:
-  - key: "role.gantry.ai"
-    operator: "Equal"
-    value: "build"
-    effect: "NoSchedule"
-  nodeSelector:
-    role.gantry.ai: build
-""", 
+podTemplate(
+    label: g_pod_label,
     containers: [
         containerTemplate(name: 'docker', image: 'docker:dind', privileged: true, ttyEnabled: true)
-    ]
+    ],
+    yaml: """
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ${g_pod_label}
+          namespace: ${g_worker_namespace}
+          labels:
+            label: ${g_pod_label}
+        spec:
+          tolerations:
+          - key: "role.gantry.ai"
+            operator: "Equal"
+            value: "build"
+            effect: "NoSchedule"
+          nodeSelector:
+            role.gantry.ai: build
+    """
 ) {
     node(g_pod_label) {
         def app_name = 'dashboard'
@@ -52,14 +54,14 @@ spec:
                 } else {
                     sh "docker build -t ${app_name} --build-arg BUILD_TYPE=${BUILD_TYPE} ./${app_name}"
                 }
-                sh "docker images ${app_name}"
+                sh "docker images"
             }
         }
 
         stage('Tag docker image') {
             container('docker') {
                 sh "docker tag ${app_name} ${harbor_url}/${harbor_project}/${app_name}:${tag}"
-                sh "docker images ${harbor_url}/${harbor_project}/${app_name}:${tag}"
+                sh "docker images"
             }
         }
 
