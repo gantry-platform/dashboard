@@ -1,0 +1,34 @@
+mat-toolbar-row {
+    height: 100px;
+}
+
+.toolbar {
+    background-color: #0f1642;
+}
+
+.logo {
+    margin-right: 160px;
+}
+
+.logo img {
+    width: 170px;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.toolbar-spacer a {
+    font-size: 20px;
+}
+
+mat-icon {
+    font-size: 33px;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+.username {
+    font-size: 16px;
+    padding-top: 10px;
+}

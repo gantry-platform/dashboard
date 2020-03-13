@@ -1,0 +1,15 @@
+<mat-toolbar>
+
+    <span class="cursor-pointer" routerLink="/" routerLinkActive="active">Dashboard</span>
+
+    <ng-container>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+        <span>{{projectName}}</span>
+    </ng-container>
+
+    <ng-container *ngFor="let menu of menuItems">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+        <span>{{menu}}</span>
+    </ng-container>
+
+</mat-toolbar>

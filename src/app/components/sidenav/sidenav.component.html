@@ -1,0 +1,25 @@
+<mat-sidenav-container>
+
+    <mat-sidenav #snav mode="side" opened>
+
+        <div class="project-name">
+            <a mat-button>
+                <h1>{{projectName}}</h1>
+            </a>
+        </div>
+
+        <ng-material-multilevel-menu [configuration]="config" [items]="appitems"></ng-material-multilevel-menu>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <div class="content">
+            
+            <app-breadcrumbs [projectName]="projectName"></app-breadcrumbs>
+
+            <router-outlet></router-outlet>
+            
+        </div>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

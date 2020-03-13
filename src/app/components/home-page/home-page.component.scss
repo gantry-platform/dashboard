@@ -1,0 +1,41 @@
+.all-project-content mat-card {
+    padding: 50px 80px;
+    background-color: #0f1642;
+}
+
+.all-project-content span {
+    font-size: 25px;
+    padding: 0 35px;
+}
+
+.select-view {
+    padding-top: 25px;
+    text-align: right;
+}
+
+.select-view mat-icon{
+    font-size: 33px;
+    margin-right: 33px;
+    cursor: pointer;
+}
+
+.project-content {
+    padding: 10px 80px;
+}
+
+.project-content mat-card{
+    cursor: pointer;
+}
+
+.project-image-card {
+    display: inline-block;
+    background-color: rgba(215, 215, 215, 0.12);
+    width: 350px;
+    height: 350px;
+    margin: 15px 20px;
+}
+
+.project-list-card {
+    background-color: rgba(215, 215, 215, 0.12);
+    margin: 15px 20px;
+}

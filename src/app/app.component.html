@@ -1,7 +1,3 @@
-<h1>{{title}}</h1>
+<app-toolbar></app-toolbar>
 
-<h3>Username : {{userName}}</h3>
-
-<h3 *ngIf="userProfile?.email">Email : {{userProfile?.email}}</h3>
-
-<button (click)="logout();">Logout</button>
+<router-outlet></router-outlet>

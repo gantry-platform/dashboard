@@ -1,0 +1,21 @@
+mat-sidenav-container {
+    position: absolute;
+    top: 100px;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+}
+
+mat-sidenav {
+    width: 264px;
+    background-color: #002141;
+}
+
+mat-sidenav-content {
+    background-color: #2b3253;
+}
+
+.project-name {
+    text-align: center;
+    margin: 15px 0 0;
+}

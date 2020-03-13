@@ -1,0 +1,20 @@
+<mat-toolbar class="toolbar">
+    <mat-toolbar-row>
+
+        <a mat-button class="logo" routerLink="/" routerLinkActive="active">
+            <img src="./assets/images/keycloak-logo-text.png" alt="gantry logo">
+        </a>
+
+        <span class="toolbar-spacer">
+            <a mat-button routerLink="/" routerLinkActive="active">Dashboard</a>
+            <a mat-button routerLink="/catalogs" routerLinkActive="active">Catalogs</a>
+            <a mat-button routerLink="/events" routerLinkActive="active">Events</a>
+        </span>
+
+        <mat-icon>notifications_none</mat-icon>
+        <mat-icon>search</mat-icon>
+        <span class="username">{{userName}}</span>
+        <mat-icon>account_circle</mat-icon>
+
+    </mat-toolbar-row>
+</mat-toolbar>
