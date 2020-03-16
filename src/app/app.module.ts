@@ -9,34 +9,36 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material-module';
 import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
-import { ProjectsPageComponent } from './components/projects-page/projects-page.component';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
+
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { DashboardPageComponent } from './components/dashboard-page/dashboard-page.component';
 import { CatalogsPageComponent } from './components/catalogs-page/catalogs-page.component';
 import { EventsPageComponent } from './components/events-page/events-page.component';
+
+import { ProjectPageComponent } from './components/project-page/project-page.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { PodsComponent } from './components/pods/pods.component';
 import { ServicesComponent } from './components/services/services.component';
-import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
-import { ProjectPageComponent } from './components/project-page/project-page.component';
+import { MemberPageComponent } from './components/member-page/member-page.component';
 
 const keycloakService = new KeycloakService();
 
 @NgModule({
   declarations: [
     AppComponent,
-    SidenavComponent,
-    HomePageComponent,
-    ProjectsPageComponent,
     ToolbarComponent,
     NotFoundComponent,
+    DashboardPageComponent,
     CatalogsPageComponent,
     EventsPageComponent,
+    ProjectPageComponent,
+    SidenavComponent,
+    BreadcrumbsComponent,
     PodsComponent,
     ServicesComponent,
-    BreadcrumbsComponent,
-    ProjectPageComponent
+    MemberPageComponent
   ],
   imports: [
     BrowserModule,

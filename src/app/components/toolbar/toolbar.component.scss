@@ -1,13 +1,13 @@
-mat-toolbar-row {
-    height: 100px;
-}
-
 .toolbar {
     background-color: #0f1642;
 }
 
+mat-toolbar-row {
+    height: 100px;
+}
+
 .logo {
-    margin-right: 160px;
+    margin-right: 100px;
 }
 
 .logo img {
@@ -20,15 +20,21 @@ mat-toolbar-row {
 
 .toolbar-spacer a {
     font-size: 20px;
+    margin-right: 35px;
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.toolbar-spacer a.active {
+    color: #ffffff;
 }
 
 mat-icon {
-    font-size: 33px;
-    padding: 0 15px;
+    font-size: 28px;
+    margin: 0 10px;
     cursor: pointer;
 }
 
 .username {
     font-size: 16px;
-    padding-top: 10px;
+    padding-left: 30px;
 }

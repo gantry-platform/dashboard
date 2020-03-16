@@ -43,8 +43,14 @@ body {
     padding: 15px;
 }
 
-span, label {
+span,
+label,
+a {
     color: #ffffff;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 mat-icon {
@@ -57,4 +63,13 @@ mat-divider.mat-divider {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+// ng-material-multilevel-menu
+mat-list-item span {
+    color: rgba(255, 255, 255, 0.28);
+}
+
+mat-list-item.selected-amml-item span {
+    color: #ffffff !important;
 }

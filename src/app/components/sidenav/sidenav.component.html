@@ -3,22 +3,21 @@
     <mat-sidenav #snav mode="side" opened>
 
         <div class="project-name">
-            <a mat-button>
-                <h1>{{projectName}}</h1>
-            </a>
+            <h1><span>{{projectName}}</span></h1>
         </div>
 
-        <ng-material-multilevel-menu [configuration]="config" [items]="appitems"></ng-material-multilevel-menu>
+        <ng-material-multilevel-menu [configuration]="config" [items]="appitems" (selectedItem)="navigate($event)">
+        </ng-material-multilevel-menu>
 
     </mat-sidenav>
 
     <mat-sidenav-content>
         <div class="content">
-            
+
             <app-breadcrumbs [projectName]="projectName"></app-breadcrumbs>
 
             <router-outlet></router-outlet>
-            
+
         </div>
     </mat-sidenav-content>
 

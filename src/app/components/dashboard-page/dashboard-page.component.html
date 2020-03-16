@@ -1,0 +1,48 @@
+<div class="content">
+
+    <div class="main-content">
+
+        <mat-card class="top-mat-card">
+            <span>5,000 Pods</span>
+            <span>11.2/20 Cores</span>
+            <span>8.6/16 GB memory</span>
+            <span>1.5/2.5 TB storage</span>
+        </mat-card>
+
+        <div class="select-view">
+            <mat-icon (click)="currentView = 'image'">widgets</mat-icon>
+            <mat-icon (click)="currentView = 'list'">storage</mat-icon>
+        </div>
+
+        <div class="row projects-row">
+            <ng-container *ngFor="let project of projects">
+                <ng-container *ngIf="currentView == 'image'">
+                    <div class="col-lg-3">
+                        <mat-card class="image-card" (click)="navigate(project);">
+                            <mat-card-header>
+                                <mat-card-title>
+                                    <span>{{project}}</span>
+                                </mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <br>
+                                <span>
+                                    <h2>Graph</h2>
+                                </span>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="currentView == 'list'">
+                    <div class="col-lg-12">
+                        <mat-card class="list-card" (click)="navigate(project);">
+                            <span>{{project}}</span>
+                        </mat-card>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+
+    </div>
+</div>
