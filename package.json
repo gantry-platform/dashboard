@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build-dev": "npm run clean && npm run restapi-gen && ng build",
-    "build-prod": "npm run clean && npm run restapi-gen && ng build --prod",
-    "restapi-gen": "./restapi-gen.sh",
+    "build": "npm run build-dev",
+    "build-dev": "npm run clean && npm run openapi-gen && ng build",
+    "build-prod": "npm run clean && npm run openapi-gen && ng build --prod",
+    "openapi-gen": "./openapi-gen.sh",
     "clean": "rimraf dist src/app/restapi",
     "test": "ng test",
     "lint": "ng lint",
@@ -30,6 +31,7 @@
     "keycloak-angular": "^7.1.0",
     "keycloak-js": "^8.0.1",
     "ng-material-multilevel-menu": "^4.11.3",
+    "ng-openapi-gen": "^0.8.2",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
