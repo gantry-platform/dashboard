@@ -19,9 +19,9 @@ import { EventsPageComponent } from './components/events-page/events-page.compon
 import { ProjectPageComponent } from './components/project-page/project-page.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
-import { PodsComponent } from './components/pods/pods.component';
-import { ServicesComponent } from './components/services/services.component';
-import { MemberPageComponent } from './components/member-page/member-page.component';
+import { ProjectPodsPageComponent } from './components/project-pods-page/project-pods-page.component';
+import { ProjectServicesPageComponent } from './components/project-services-page/project-services-page.component';
+import { ProjectMembersPageComponent } from './components/project-members-page/project-members-page.component';
 
 const keycloakService = new KeycloakService();
 
@@ -36,9 +36,9 @@ const keycloakService = new KeycloakService();
     ProjectPageComponent,
     SidenavComponent,
     BreadcrumbsComponent,
-    PodsComponent,
-    ServicesComponent,
-    MemberPageComponent
+    ProjectPodsPageComponent,
+    ProjectServicesPageComponent,
+    ProjectMembersPageComponent
   ],
   imports: [
     BrowserModule,

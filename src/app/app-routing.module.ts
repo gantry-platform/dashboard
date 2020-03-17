@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { DashboardPageComponent } from './components/dashboard-page/dashboard-page.component';
 import { CatalogsPageComponent } from './components/catalogs-page/catalogs-page.component';
 import { EventsPageComponent } from './components/events-page/events-page.component';
 import { ProjectPageComponent } from './components/project-page/project-page.component';
-import { PodsComponent } from './components/pods/pods.component';
-import { ServicesComponent } from './components/services/services.component';
-import { MemberPageComponent } from './components/member-page/member-page.component';
+import { ProjectPodsPageComponent } from './components/project-pods-page/project-pods-page.component';
+import { ProjectServicesPageComponent } from './components/project-services-page/project-services-page.component';
+import { ProjectMembersPageComponent } from './components/project-members-page/project-members-page.component';
 
 const routes: Routes = [
   { path: '', component: DashboardPageComponent },
@@ -18,9 +17,9 @@ const routes: Routes = [
     path: 'project/:id', component: ProjectPageComponent,
     children: [
       { path: '', redirectTo: 'pods', pathMatch: 'full' },
-      { path: 'pods', component: PodsComponent, data: { 'breadcrumb': 'Pods' } },
-      { path: 'services', component: ServicesComponent, data: { 'breadcrumb': 'Services' } },
-      { path: 'members', component: MemberPageComponent, data: { 'breadcrumb': 'Members' } }
+      { path: 'pods', component: ProjectPodsPageComponent, data: { 'breadcrumb': 'Pods' } },
+      { path: 'services', component: ProjectServicesPageComponent, data: { 'breadcrumb': 'Services' } },
+      { path: 'members', component: ProjectMembersPageComponent, data: { 'breadcrumb': 'Members' } }
     ]
   },
   { path: '404', component: NotFoundComponent },
