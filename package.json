@@ -1,12 +1,13 @@
 {
   "name": "dashboard",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build-dev": "npm run clean && ng build",
-    "build-prod": "npm run clean && ng build --prod",
-    "clean": "rimraf dist",
+    "build-dev": "npm run clean && npm run restapi-gen && ng build",
+    "build-prod": "npm run clean && npm run restapi-gen && ng build --prod",
+    "restapi-gen": "./restapi-gen.sh",
+    "clean": "rimraf dist src/app/restapi",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

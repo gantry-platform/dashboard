@@ -1,21 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, DoBootstrap, ApplicationRef } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { BackendsModule } from './modules/backends-modules';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material-module';
 import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
-
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { DashboardPageComponent } from './components/dashboard-page/dashboard-page.component';
 import { CatalogsPageComponent } from './components/catalogs-page/catalogs-page.component';
 import { EventsPageComponent } from './components/events-page/events-page.component';
-
 import { ProjectPageComponent } from './components/project-page/project-page.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -42,10 +40,11 @@ const keycloakService = new KeycloakService();
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    KeycloakAngularModule,
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    BackendsModule,
+    AppRoutingModule,
+    KeycloakAngularModule,
     MaterialModule,
     NgMaterialMultilevelMenuModule
   ],
