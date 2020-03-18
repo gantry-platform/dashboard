@@ -7,8 +7,25 @@ mat-sidenav-container {
 }
 
 mat-sidenav {
-    width: 264px;
+    width: 40px;
     background-color: #002141;
+}
+
+mat-sidenav.opened {
+    width: 264px;
+}
+
+.badge {
+    position: fixed;
+    top: 120px;
+    left: 25px;
+    font-size: 0px;
+    border: 2px solid #ffffff;
+    border-radius: 17px;
+}
+
+mat-sidenav.opened .badge{
+    left: 247px;
 }
 
 mat-sidenav-content {
@@ -18,4 +35,12 @@ mat-sidenav-content {
 .project-name {
     text-align: center;
     margin: 15px 0 0;
+}
+
+mat-sidenav-content.opened {
+    margin-left: 264px !important;
+}
+
+mat-sidenav-content.closed {
+    margin-left: 40px !important;
 }

@@ -1,1 +1,160 @@
-<h1><span>project members works!</span></h1>
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Members">
+        <ng-template matTabContent>
+
+            <div class="content">
+
+                <div class="row member-row">
+
+                    <div class="col-xl-6">
+
+                        <mat-accordion>
+                            <mat-expansion-panel expanded>
+                                <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+                                    <mat-panel-title>
+                                        <span>Admin / 5</span>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+
+                                <mat-table [dataSource]="dataSource">
+
+                                    <ng-container matColumnDef="name">
+                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="email">
+                                        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="role">
+                                        <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="delete">
+                                        <mat-cell *matCellDef="let element">
+                                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                </mat-table>
+
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                        <mat-accordion>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+                                    <mat-panel-title>
+                                        <span>Dev / 5</span>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+
+                                <mat-table [dataSource]="dataSource">
+
+                                    <ng-container matColumnDef="name">
+                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="email">
+                                        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="role">
+                                        <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="delete">
+                                        <mat-cell *matCellDef="let element">
+                                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                </mat-table>
+
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                        <mat-accordion>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+                                    <mat-panel-title>
+                                        <span>Prod / 5</span>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+
+                                <mat-table [dataSource]="dataSource">
+
+                                    <ng-container matColumnDef="name">
+                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="email">
+                                        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="role">
+                                        <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="delete">
+                                        <mat-cell *matCellDef="let element">
+                                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                </mat-table>
+
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <mat-accordion>
+                            <mat-expansion-panel expanded>
+                                <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+                                    <mat-panel-title>
+                                        <span>Pending members / 5</span>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+
+                                <mat-table [dataSource]="dataSource">
+
+                                    <ng-container matColumnDef="name">
+                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="email">
+                                        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="role">
+                                        <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="delete">
+                                        <mat-cell *matCellDef="let element">
+                                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                </mat-table>
+
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                </div>
+            </div>
+
+
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Invite">
+        <ng-template matTabContent>
+            <span>test2</span>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>

@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class SidenavComponent implements OnInit {
 
+  opened: boolean = true;
   projectName: string;
   config: Configuration;
   appitems: Array<MultilevelNodes> = [];
@@ -23,7 +24,7 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.pipe(map(p => p.id)).subscribe(res => {
-      if(this.projects.findIndex(x=>x === res) === -1) {
+      if (this.projects.findIndex(x => x === res) === -1) {
         this.router.navigate(['404']);
         return;
       }

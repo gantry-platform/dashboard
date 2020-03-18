@@ -37,6 +37,7 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     background-color: #2b3253;
+    overflow-x: hidden;
 }
 
 .content {
@@ -53,23 +54,67 @@ a:hover {
     text-decoration: none;
 }
 
-mat-icon {
-    color: #ffffff;
-}
-
-mat-divider.mat-divider {
-    border: none !important;
+span:focus {
+    outline: none;
 }
 
 .cursor-pointer {
     cursor: pointer;
 }
 
-// ng-material-multilevel-menu
+/* Material icons */
+mat-icon {
+    color: #ffffff;
+}
+
+/* Material divider */
+mat-divider {
+    border: none !important;
+}
+
+/* ng-material-multilevel-menu */
 mat-list-item span {
     color: rgba(255, 255, 255, 0.28);
 }
 
 mat-list-item.selected-amml-item span {
+    color: #ffffff !important;
+}
+
+/* Material tabs */
+.mat-tab-label {
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.mat-tab-label-active {
+    color: #ffffff;
+    opacity: 1 !important;
+}
+
+/* Material expansion panel */
+mat-expansion-panel {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 4px !important;
+    margin: 30px 15px !important;
+}
+
+.mat-expansion-indicator::after {
+    color: #ffffff !important;
+}
+
+.mat-expansion-panel-body {
+    background-color: #002141 !important;
+}
+
+/* Material table */
+mat-table {
+    background-color: #002141 !important;
+}
+
+mat-row {
+    border-bottom: 1px solid #ffffff;
+}
+
+mat-table mat-cell {
     color: #ffffff !important;
 }

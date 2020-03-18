@@ -1,23 +1,30 @@
 <mat-sidenav-container>
 
-    <mat-sidenav #snav mode="side" opened>
+    <mat-sidenav [ngClass]="{'opened': opened}" mode="side" opened>
 
-        <div class="project-name">
-            <h1><span>{{projectName}}</span></h1>
-        </div>
+        <span class="badge cursor-pointer" (click)="opened = !opened">
+            <mat-icon>{{opened ? 'chevron_left' : 'chevron_right'}}</mat-icon>
+        </span>
 
-        <ng-material-multilevel-menu [configuration]="config" [items]="appitems" (selectedItem)="navigate($event)">
-        </ng-material-multilevel-menu>
+        <ng-container *ngIf="opened">
+            <div class="project-name">
+                <h1>
+                    <a routerLink="/project/{{projectName}}/pods"
+                        routerLinkActive="active"><span>{{projectName}}</span></a>
+                </h1>
+            </div>
+
+            <ng-material-multilevel-menu [configuration]="config" [items]="appitems" (selectedItem)="navigate($event)">
+            </ng-material-multilevel-menu>
+        </ng-container>
 
     </mat-sidenav>
 
-    <mat-sidenav-content>
+
+    <mat-sidenav-content [ngClass]="{'opened': opened, 'closed': !opened}">
         <div class="content">
-
             <app-breadcrumbs [projectName]="projectName"></app-breadcrumbs>
-
             <router-outlet></router-outlet>
-
         </div>
     </mat-sidenav-content>
 
