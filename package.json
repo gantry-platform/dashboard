@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --configuration=local --port 4200",
     "build": "npm run build-dev",
     "build-dev": "npm run clean && npm run openapi-gen && ng build",
     "build-prod": "npm run clean && npm run openapi-gen && ng build --prod",
@@ -32,6 +32,7 @@
     "keycloak-js": "^8.0.1",
     "ng-material-multilevel-menu": "^4.11.3",
     "ng-openapi-gen": "^0.8.2",
+    "popper.js": "^1.16.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
