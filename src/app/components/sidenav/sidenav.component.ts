@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
+import { ProjectService } from 'src/app/services/project.service';
 import { Configuration, MultilevelNodes } from 'ng-material-multilevel-menu';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav',
@@ -11,29 +12,19 @@ import { map } from 'rxjs/operators';
 export class SidenavComponent implements OnInit {
 
   opened: boolean = true;
-  projectName: string;
   config: Configuration;
   appitems: Array<MultilevelNodes> = [];
-  projects: Array<string> = ["Project 1", "Project 2", "Project 3", "Project 4", "Project 5", "Project 6"];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private userService: UserService,
+    public projectService: ProjectService
   ) {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.pipe(map(p => p.id)).subscribe(res => {
-      if (this.projects.findIndex(x => x === res) === -1) {
-        this.router.navigate(['404']);
-        return;
-      }
-
-      this.projectName = res;
-
-      this.setConfiguration();
-      this.setMultilevelNodes();
-    });
+    this.setConfiguration();
+    this.setMultilevelNodes();
   }
 
   setConfiguration(): void {
@@ -77,7 +68,8 @@ export class SidenavComponent implements OnInit {
   }
 
   itemLink(menu: string): string {
-    return `/project/${this.projectName}/${menu}`;
+    return `/project/${this.projectService.project.id}/${menu}`;
+    return "";
   }
 
   navigate(event: any): void {

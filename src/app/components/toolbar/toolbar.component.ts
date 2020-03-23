@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { KeycloakService } from 'keycloak-angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,12 +12,16 @@ export class ToolbarComponent implements OnInit {
   userName: string;
 
   constructor(
-    private keycloakService: KeycloakService
+    private authService: AuthService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
-    this.userName = this.keycloakService.getUsername();
+    this.userName = this.userService.userInfo.name;
+  }
 
+  logout() {
+    this.authService.logout();
   }
 
 }

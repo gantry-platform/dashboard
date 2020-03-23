@@ -7,11 +7,10 @@
         </span>
 
         <ng-container *ngIf="opened">
-            <div class="project-name">
-                <h1>
-                    <a routerLink="/project/{{projectName}}/pods"
-                        routerLinkActive="active"><span>{{projectName}}</span></a>
-                </h1>
+            <div class="project">
+                <a routerLink="/project/{{projectService.project.id}}/pods" routerLinkActive="active">
+                    <span>{{projectService.project.display_name}}</span>
+                </a>
             </div>
 
             <ng-material-multilevel-menu [configuration]="config" [items]="appitems" (selectedItem)="navigate($event)">
@@ -20,12 +19,13 @@
 
     </mat-sidenav>
 
-
     <mat-sidenav-content [ngClass]="{'opened': opened, 'closed': !opened}">
+
         <div class="content">
-            <app-breadcrumbs [projectName]="projectName"></app-breadcrumbs>
+            <app-breadcrumbs></app-breadcrumbs>
             <router-outlet></router-outlet>
         </div>
+
     </mat-sidenav-content>
 
 </mat-sidenav-container>

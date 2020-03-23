@@ -22,6 +22,9 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { ProjectPodsPageComponent } from './components/project-pods-page/project-pods-page.component';
 import { ProjectServicesPageComponent } from './components/project-services-page/project-services-page.component';
 import { ProjectMembersPageComponent } from './components/project-members-page/project-members-page.component';
+import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dialog.component';
+import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
+import { AuthService } from './services/auth.service';
 
 const keycloakService = new KeycloakService();
 
@@ -38,7 +41,9 @@ const keycloakService = new KeycloakService();
     BreadcrumbsComponent,
     ProjectPodsPageComponent,
     ProjectServicesPageComponent,
-    ProjectMembersPageComponent
+    ProjectMembersPageComponent,
+    AlertDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +62,8 @@ const keycloakService = new KeycloakService();
     {
       provide: KeycloakService,
       useValue: keycloakService
-    }
+    },
+    AuthService
   ],
   entryComponents: [AppComponent]
 })
@@ -66,6 +72,8 @@ export class AppModule implements DoBootstrap {
     keycloakService
       .init(environment.keycloakOptions)
       .then(() => {
+        localStorage.setItem("token", keycloakService.getKeycloakInstance().token);
+        localStorage.setItem("refresh-token", keycloakService.getKeycloakInstance().refreshToken);
         appRef.bootstrap(AppComponent);
       })
       .catch(error => console.error('[ngDoBootstrap] init Keycloak failed', error));

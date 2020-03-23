@@ -1,25 +1,22 @@
 <mat-tab-group animationDuration="0ms">
     <mat-tab label="Members">
         <ng-template matTabContent>
-
             <div class="content">
-
-                <div class="row member-row">
-
-                    <div class="col-xl-6">
+                <div class="row wrapper">
+                    <div class="col-xl-6 vertical-right-divider">
 
                         <mat-accordion>
                             <mat-expansion-panel expanded>
                                 <mat-expansion-panel-header [expandedHeight]="expandedHeight">
                                     <mat-panel-title>
-                                        <span>Admin / 5</span>
+                                        <span>Admin / {{adminMemberDataSource.data.length}}</span>
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
 
-                                <mat-table [dataSource]="dataSource">
+                                <mat-table [dataSource]="adminMemberDataSource">
 
-                                    <ng-container matColumnDef="name">
-                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    <ng-container matColumnDef="user_name">
+                                        <mat-cell *matCellDef="let element"> {{element.user_name}} </mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="email">
@@ -27,16 +24,23 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="role">
-                                        <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+                                        <mat-cell *matCellDef="let element">
+                                            <mat-select value="admin" (selectionChange)="updateRole(element, $event.value);">
+                                                <mat-option [value]="role" *ngFor="let role of roleList">
+                                                    {{ role }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="delete">
                                         <mat-cell *matCellDef="let element">
-                                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                (click)="deleteMember(element);">Delete</button>
                                         </mat-cell>
                                     </ng-container>
 
-                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                    <mat-row *matRowDef="let row; columns: memberColumns;"></mat-row>
                                 </mat-table>
 
                             </mat-expansion-panel>
@@ -46,14 +50,14 @@
                             <mat-expansion-panel>
                                 <mat-expansion-panel-header [expandedHeight]="expandedHeight">
                                     <mat-panel-title>
-                                        <span>Dev / 5</span>
+                                        <span>Dev / {{devMemberDataSource.data.length}}</span>
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
 
-                                <mat-table [dataSource]="dataSource">
+                                <mat-table [dataSource]="devMemberDataSource">
 
-                                    <ng-container matColumnDef="name">
-                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    <ng-container matColumnDef="user_name">
+                                        <mat-cell *matCellDef="let element"> {{element.user_name}} </mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="email">
@@ -61,16 +65,23 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="role">
-                                        <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+                                        <mat-cell *matCellDef="let element">
+                                            <mat-select value="admin" (selectionChange)="updateRole(element, $event.value);">
+                                                <mat-option [value]="role" *ngFor="let role of roleList">
+                                                    {{ role }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="delete">
                                         <mat-cell *matCellDef="let element">
-                                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                (click)="deleteMember(element);">Delete</button>
                                         </mat-cell>
                                     </ng-container>
 
-                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                    <mat-row *matRowDef="let row; columns: memberColumns;"></mat-row>
                                 </mat-table>
 
                             </mat-expansion-panel>
@@ -80,14 +91,14 @@
                             <mat-expansion-panel>
                                 <mat-expansion-panel-header [expandedHeight]="expandedHeight">
                                     <mat-panel-title>
-                                        <span>Prod / 5</span>
+                                        <span>Ops / {{opsMemberDataSource.data.length}}</span>
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
 
-                                <mat-table [dataSource]="dataSource">
+                                <mat-table [dataSource]="opsMemberDataSource">
 
-                                    <ng-container matColumnDef="name">
-                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    <ng-container matColumnDef="user_name">
+                                        <mat-cell *matCellDef="let element"> {{element.user_name}} </mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="email">
@@ -95,61 +106,81 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="role">
-                                        <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+                                        <mat-cell *matCellDef="let element">
+                                            <mat-select value="admin" (selectionChange)="updateRole(element, $event.value);">
+                                                <mat-option [value]="role" *ngFor="let role of roleList">
+                                                    {{ role }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="delete">
                                         <mat-cell *matCellDef="let element">
-                                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                (click)="deleteMember(element);">Delete</button>
                                         </mat-cell>
                                     </ng-container>
 
-                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                    <mat-row *matRowDef="let row; columns: memberColumns;"></mat-row>
                                 </mat-table>
 
                             </mat-expansion-panel>
                         </mat-accordion>
+
                     </div>
 
                     <div class="col-xl-6">
+
+                        <div class="col-md-5 offset-md-7">
+                            <div class="form-group">
+                                <input type="text" class="form-control transparent"
+                                    placeholder="search Username or email"
+                                    (input)="pendingMembersFilter($event.target.value)">
+                            </div>
+                        </div>
+
                         <mat-accordion>
                             <mat-expansion-panel expanded>
                                 <mat-expansion-panel-header [expandedHeight]="expandedHeight">
                                     <mat-panel-title>
-                                        <span>Pending members / 5</span>
+                                        <span>Pending members / {{pendingMemberDataSource.data.length}}</span>
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
 
-                                <mat-table [dataSource]="dataSource">
+                                <mat-table [dataSource]="pendingMemberDataSource">
 
-                                    <ng-container matColumnDef="name">
-                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    <ng-container matColumnDef="user_name">
+                                        <mat-cell *matCellDef="let element">{{convertPendingUserName(element.email)}}</mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="email">
-                                        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                        <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
                                     </ng-container>
 
-                                    <ng-container matColumnDef="role">
-                                        <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
+                                    <ng-container matColumnDef="reinvite">
+                                        <mat-cell *matCellDef="let element">
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                (click)="reInvite(element);">Re-invite</button>
+                                        </mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="delete">
                                         <mat-cell *matCellDef="let element">
-                                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                (click)="deleteMember(element);">Delete</button>
                                         </mat-cell>
                                     </ng-container>
 
-                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                    <mat-row *matRowDef="let row; columns: pendingMemberColumns;"></mat-row>
                                 </mat-table>
 
                             </mat-expansion-panel>
                         </mat-accordion>
+
                     </div>
                 </div>
             </div>
-
-
         </ng-template>
     </mat-tab>
     <mat-tab label="Invite">

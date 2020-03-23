@@ -12,9 +12,18 @@
         </span>
 
         <mat-icon>notifications_none</mat-icon>
+
         <mat-icon>search</mat-icon>
+
         <span class="username">{{userName}}</span>
-        <mat-icon>account_circle</mat-icon>
+
+        <div class="dropdown user-profile">
+            <mat-icon id="user_profile_menu" data-toggle="dropdown">account_circle</mat-icon>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user_profile_menu">
+                <span class="dropdown-item cursor-pointer">Profile</span>
+                <span class="dropdown-item cursor-pointer" (click)="logout();">Logout</span>
+            </div>
+        </div>
 
     </mat-toolbar-row>
 </mat-toolbar>

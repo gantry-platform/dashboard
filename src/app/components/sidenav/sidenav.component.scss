@@ -24,7 +24,7 @@ mat-sidenav.opened {
     border-radius: 17px;
 }
 
-mat-sidenav.opened .badge{
+mat-sidenav.opened .badge {
     left: 247px;
 }
 
@@ -32,9 +32,15 @@ mat-sidenav-content {
     background-color: #2b3253;
 }
 
-.project-name {
+.project {
     text-align: center;
-    margin: 15px 0 0;
+    margin: 30px 0 20px;
+    padding: 0 35px;
+    overflow-wrap: break-word;
+}
+
+.project span{
+    font-size: 24px;
 }
 
 mat-sidenav-content.opened {

@@ -44,9 +44,19 @@ body {
     padding: 15px;
 }
 
+.row+.row {
+    margin-top: 20px;
+}
+
 span,
 label,
-a {
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: #ffffff;
 }
 
@@ -56,6 +66,26 @@ a:hover {
 
 span:focus {
     outline: none;
+}
+
+input.transparent {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+input:focus.transparent {
+    background-color: transparent;
+    border-color: #ffffff;
+    box-shadow: none;
+    color: #ffffff;
+}
+
+.vertical-right-divider {
+    border-right: 1px solid #ffffff;
+}
+
+.btn-center-align {
+    text-align: center;
 }
 
 .cursor-pointer {
@@ -82,8 +112,16 @@ mat-list-item.selected-amml-item span {
 }
 
 /* Material tabs */
+.mat-tab-header {
+    border-bottom: 1px solid #002141;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar {
+    background-color: #ffffff;
+}
+
 .mat-tab-label {
-    color: rgba(255, 255, 255, 0.28);
+    color: #ffffff;
 }
 
 .mat-tab-label-active {
@@ -104,17 +142,43 @@ mat-expansion-panel {
 
 .mat-expansion-panel-body {
     background-color: #002141 !important;
+    padding: 0px !important;
 }
 
-/* Material table */
-mat-table {
-    background-color: #002141 !important;
+/* Material select */
+mat-option.mat-active {
+    background: #002141 !important;
 }
 
-mat-row {
-    border-bottom: 1px solid #ffffff;
-}
-
-mat-table mat-cell {
+mat-option.mat-active span.mat-option-text {
     color: #ffffff !important;
+}
+
+span.mat-option-text {
+    color: #002141;
+}
+
+.mat-select-arrow {
+    color: #ffffff;
+}
+
+@media (max-width: 1200px) {
+    .vertical-right-divider {
+        border-right: none;
+    }
+}
+
+/* Material dialog */
+mat-dialog-actions {
+    &[align='start'] {
+        justify-content: flex-start;
+    }
+
+    &[align='end'] {
+        justify-content: flex-end;
+    }
+
+    &[align='center'] {
+        justify-content: center;
+    }
 }

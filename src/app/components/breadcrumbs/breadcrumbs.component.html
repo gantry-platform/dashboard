@@ -2,10 +2,11 @@
 
     <a routerLink="/" routerLinkActive="active"><span>Dashboard</span></a>
 
-    <ng-container>
-        <mat-icon>keyboard_arrow_right</mat-icon>
-        <a routerLink="/project/{{projectName}}/pods" routerLinkActive="active"><span>{{projectName}}</span></a>
-    </ng-container>
+    <mat-icon>keyboard_arrow_right</mat-icon>
+
+    <a routerLink="/project/{{projectService.project.name}}/pods" routerLinkActive="active">
+        <span>{{projectService.project.display_name}}</span>
+    </a>
 
     <ng-container *ngFor="let menu of menuItems">
         <mat-icon>keyboard_arrow_right</mat-icon>

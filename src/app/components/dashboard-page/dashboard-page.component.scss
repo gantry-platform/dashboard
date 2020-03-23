@@ -12,11 +12,6 @@
     margin: 0 35px;
 }
 
-.select-view {
-    margin-top: 20px;
-    text-align: right;
-}
-
 .select-view mat-icon {
     font-size: 28px;
     margin-left: 25px;
@@ -25,14 +20,10 @@
 
 .projects-row mat-card {
     background-color: rgba(215, 215, 215, 0.12);
+    margin-bottom: 25px;
     cursor: pointer;
 }
 
-.projects-row .image-card {
+.projects-row mat-card.image-card {
     height: 350px;
-    margin: 15px 0;
-}
-
-.projects-row .list-card {
-    margin: 15px 0;
 }
