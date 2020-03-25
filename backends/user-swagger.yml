@@ -30,6 +30,12 @@ paths:
           description: user_id(not name)
           schema:
             type: string
+        - name: include_project
+          in: query
+          required: false
+          description: 프로젝트 정보까지 포함
+          schema:
+            type: boolean
       responses:
         '200':
           description: Success
@@ -56,44 +62,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /users/{user_id}/projects:
-    get:
-      summary: 유저의 전체 프로젝트 정보 조회
-      tags:
-        - users
-      parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user_id(not name)
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Project'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
     post:
       summary: 신규 프로젝트 생성
       tags:
@@ -142,7 +110,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_name}:
+  /{user_id}/projects/{project_id}:
     get:
       summary: 프로젝트 정보 조회
       tags:
@@ -154,10 +122,10 @@ paths:
           description: user id (not name or email)
           schema:
             type: string
-        - name: project_name
+        - name: project_id
           in: path
           required: true
-          description: project name
+          description: project id
           schema:
             type: string
       responses:
@@ -196,10 +164,10 @@ paths:
           description: user id (not name or email)
           schema:
             type: string
-        - name: project_name
+        - name: project_id
           in: path
           required: true
-          description: project name
+          description: project id
           schema:
             type: string
       requestBody:
@@ -240,10 +208,10 @@ paths:
           description: user id (not name or email)
           schema:
             type: string
-        - name: project_name
+        - name: project_id
           in: path
           required: true
-          description: project name
+          description: project id
           schema:
             type: string
       responses:
@@ -267,7 +235,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_name}/archive:
+  /{user_id}/projects/{project_id}/archive:
     put:
       summary: 프로젝트 보관
       tags:
@@ -279,10 +247,10 @@ paths:
           description: user id (not name or email)
           schema:
             type: string
-        - name: project_name
+        - name: project_id
           in: path
           required: true
-          description: project name
+          description: project id
           schema:
             type: string
       responses:
@@ -306,7 +274,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_name}/active:
+  /{user_id}/projects/{project_id}/active:
     put:
       summary: 프로젝트 활성화
       tags:
@@ -318,10 +286,10 @@ paths:
           description: user id (not name or email)
           schema:
             type: string
-        - name: project_name
+        - name: project_id
           in: path
           required: true
-          description: project name
+          description: project id
           schema:
             type: string
       responses:
@@ -345,7 +313,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_name}/groups:
+  /{user_id}/projects/{project_id}/groups:
     get:
       summary: 프로젝트의 전체 그룹정도(dev,ops,admin) 조회
       tags:
@@ -357,10 +325,10 @@ paths:
           description: user id (not name or email)
           schema:
             type: string
-        - name: project_name
+        - name: project_id
           in: path
           required: true
-          description: project name
+          description: project id
           schema:
             type: string
       responses:
@@ -390,7 +358,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_name}/groups/{group_name}:
+  /{user_id}/projects/{project_id}/groups/{group_id}/invitation:
     put:
       summary: 특정 그룹으로 맴버초대
       tags:
@@ -402,16 +370,16 @@ paths:
           description: user id (not name or email)
           schema:
             type: string
-        - name: project_name
+        - name: project_id
           in: path
           required: true
-          description: project name
+          description: project id
           schema:
             type: string
-        - name: group_name
+        - name: group_id
           in: path
           required: true
-          description: group_name
+          description: group_id
           schema:
             type: string
         - name: email
@@ -447,57 +415,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    patch:
-      summary: 맴버의 그룹정보를 변경한다.(e.g.) admin to ops)
-      tags:
-        - projects
-      parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
-        - name: project_name
-          in: path
-          required: true
-          description: project name
-          schema:
-            type: string
-        - name: group_name
-          in: path
-          required: true
-          description: group_name
-          schema:
-            type: string
-        - name: member_id
-          in: query
-          required: true
-          description: member id
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_name}/members/{member_id}:
+
+  /{user_id}/projects/{project_id}/members/{member_id}:
     delete:
       summary: 특정 맴버를 프로젝트에서 삭제한다.(그룹이 아니라 프로젝트임)
       tags:
@@ -509,10 +428,10 @@ paths:
           description: user id (not name or email)
           schema:
             type: string
-        - name: project_name
+        - name: project_id
           in: path
           required: true
-          description: project name
+          description: project id
           schema:
             type: string
         - name: member_id
@@ -542,7 +461,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_name}/groups/{group_name}/members:
+  /{user_id}/projects/{project_id}/groups/{group_id}/members:
     get:
       summary: 특정 프로젝트의 전체 맴버를 조회한다.
       tags:
@@ -554,16 +473,16 @@ paths:
           description: user id (not name or email)
           schema:
             type: string
-        - name: project_name
+        - name: project_id
           in: path
           required: true
-          description: project name
+          description: project id
           schema:
             type: string
-        - name: group_name
+        - name: group_id
           in: path
           required: true
-          description: group_name
+          description: group id
           schema:
             type: string
       responses:
@@ -593,7 +512,56 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
+    patch:
+      summary: 맴버의 그룹정보를 변경한다.(e.g.) admin to ops)
+      tags:
+        - projects
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: user id (not name or email)
+          schema:
+            type: string
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+        - name: group_id
+          in: path
+          required: true
+          description: group id
+          schema:
+            type: string
+        - name: member_id
+          in: query
+          required: true
+          description: member id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   schemas:
@@ -602,7 +570,7 @@ components:
       properties:
         user_id:
           type: string
-        eamil:
+        email:
           type: string
         user_name:
           type: string
@@ -619,6 +587,8 @@ components:
     Project:
       type: object
       properties:
+        id:
+          type: string
         name:
           type: string
         display_name:
@@ -636,9 +606,22 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Group"
+        pending_users:
+          type: array
+          items:
+            $ref: "#/components/schemas/PendingUser"
+
+    PendingUser:
+      type: object
+      properties:
+        email:
+          type: string
+
     Group:
       type: object
       properties:
+        id:
+          type: string
         name:
           type: string
         display_name:
@@ -656,6 +639,8 @@ components:
           type: string
         email:
           type: string
+        email_verified:
+          type: boolean
     NewProject:
       type: object
       required:
@@ -682,6 +667,4 @@ components:
           type: string
         message:
           type: string
-
-
 

@@ -66,6 +66,7 @@ export class ProjectService {
       take(1)
     ).subscribe((res: Project) => {
       console.log("프로젝트 정보 조회");
+      console.log(res);
       this.project = res;
     },
       (err) => {
@@ -88,6 +89,16 @@ export class ProjectService {
 
   getGroupPendingMembers(): Array<PendingUser> {
     return this.project.pending_users;
+  }
+
+  checkExistEmail(email: string): boolean {
+    const idx: number = this.project.groups.findIndex((g: Group) => {
+      if (g.members) {
+        return g.members.findIndex(m => m.email == email) != -1;
+      }
+    });
+
+    return (idx > -1) ? false : true;
   }
 
 }

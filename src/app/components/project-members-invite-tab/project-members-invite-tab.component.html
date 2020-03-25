@@ -1,0 +1,127 @@
+<div class="wrapper">
+    <div class="row form-group">
+        <div class="col-xl-6 vertical-right-divider">
+
+            <form class="m-form" [formGroup]="form" (keydown.enter)="$event.preventDefault();" autocomplete="off"
+                novalidate>
+
+                <div class="row form-group">
+                    <div class="col-xl-12">
+                        <span class="title">Invite Members</span>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-5" [ngClass]="displayFieldCss('email')">
+                        <input type="text" formControlName="email" class="form-control transparent" placeholder="email">
+                    </div>
+
+                    <div class="col-md-4" [ngClass]="displayFieldCss('role')">
+                        <mat-select formControlName="role" class="form-control transparent">
+                            <mat-option value="">Select</mat-option>
+                            <mat-option [value]="role" *ngFor="let role of roleList">
+                                {{ (role) }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <button type="button" class="btn btn-primary wide" (click)="add()">+ Add</button>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-xl-12">
+                        <mat-table [dataSource]="inviteMemberDataSource">
+
+                            <ng-container matColumnDef="invite_user_name">
+                                <mat-cell *matCellDef="let element">{{convertInviteUserName()}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="invite_email">
+                                <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="invite_role">
+                                <mat-cell *matCellDef="let element">{{element.role}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="invite_delete">
+                                <mat-cell *matCellDef="let element">
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                        (click)="deleteInviteMember(element);">Delete</button>
+                                </mat-cell>
+                            </ng-container>
+
+                            <mat-row *matRowDef="let row; columns: inviteMemberColumns;"></mat-row>
+                        </mat-table>
+                    </div>
+                </div>
+
+                <div class="row form-group action">
+                    <div class="col-xl-12 text-right">
+                        <button type="button" class="btn btn-warning wide" (click)="cancel()">Cancel</button>
+                        <button type="button" class="btn btn-primary wide" (click)="invite()">Invite</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col-xl-6">
+
+            <div class="row form-group">
+                <div class="col-md-5 offset-md-7">
+                    <div class="form-group">
+                        <input type="text" class="form-control transparent" placeholder="search Username or email"
+                            (input)="pendingMembersFilter($event.target.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-xl-12">
+                    <mat-accordion>
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+                                <mat-panel-title>
+                                    <span>Pending members /
+                                        {{pendingMemberDataSource.data.length}}</span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <mat-table [dataSource]="pendingMemberDataSource">
+
+                                <ng-container matColumnDef="user_name">
+                                    <mat-cell *matCellDef="let element">
+                                        {{convertPendingUserName(element.email)}}
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="email">
+                                    <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="reinvite">
+                                    <mat-cell *matCellDef="let element">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            (click)="reInvite(element);">Re-invite</button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="delete">
+                                    <mat-cell *matCellDef="let element">
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                            (click)="deleteMember(element);">Delete</button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-row *matRowDef="let row; columns: pendingMemberColumns;"></mat-row>
+                            </mat-table>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

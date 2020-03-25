@@ -41,12 +41,30 @@ body {
 }
 
 .content {
-    padding: 15px;
+    padding: 20px;
 }
 
-.row+.row {
-    margin-top: 20px;
+.content .title {
+    font-size: 20px;
 }
+
+.wrapper {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #002141 !important;
+}
+
+.has-error .form-control{
+  border-color: #dc3545 !important;
+}
+
+// .row+.row {
+//     margin-top: 20px;
+// }
+
+// .row+.row:last-child {
+//     margin-bottom: 20px;
+// }
 
 span,
 label,
@@ -88,7 +106,31 @@ input:focus.transparent {
     text-align: center;
 }
 
-.cursor-pointer {
+button+button {
+    margin-left: 20px;
+}
+
+button.base {
+    width: 60px;
+}
+
+button.wide {
+    width: 100px;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+btn-warning {
+    color: #ffffff;
+}
+
+.c100sor-pointer {
     cursor: pointer;
 }
 
@@ -133,7 +175,6 @@ mat-list-item.selected-amml-item span {
 mat-expansion-panel {
     background-color: rgba(255, 255, 255, 0.1) !important;
     border-radius: 4px !important;
-    margin: 30px 15px !important;
 }
 
 .mat-expansion-indicator::after {
@@ -146,6 +187,18 @@ mat-expansion-panel {
 }
 
 /* Material select */
+mat-select.transparent {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+mat-select:focus.transparent {
+    background-color: transparent;
+    border-color: #ffffff;
+    box-shadow: none;
+    color: #ffffff;
+}
+
 mat-option.mat-active {
     background: #002141 !important;
 }
@@ -162,23 +215,21 @@ span.mat-option-text {
     color: #ffffff;
 }
 
+/* Material dialog */
+.mat-dialog-title.title,
+.mat-dialog-content p.message {
+    color: #000000 !important;
+}
+.mat-dialog-content p.message {
+    font-size: 16px;
+}
+
+.mat-dialog-actions {
+    margin-top: 20px;
+}
+
 @media (max-width: 1200px) {
     .vertical-right-divider {
         border-right: none;
-    }
-}
-
-/* Material dialog */
-mat-dialog-actions {
-    &[align='start'] {
-        justify-content: flex-start;
-    }
-
-    &[align='end'] {
-        justify-content: flex-end;
-    }
-
-    &[align='center'] {
-        justify-content: center;
     }
 }

@@ -1,1 +1,10 @@
-<p>confirm-dialog works!</p>
+<h2 mat-dialog-title class="title">{{ data.title }}</h2>
+
+<div mat-dialog-content>
+    <p class="message">{{ data.description }}</p>
+</div>
+
+<div mat-dialog-actions align="center">
+    <button class="btn btn-secondary wide" (click)="cancel()">{{ cancelText }}</button>
+    <button class="btn btn-primary wide" (click)="ok()">{{ okText }}</button>
+</div>

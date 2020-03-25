@@ -1,0 +1,210 @@
+<div class="wrapper">
+    <div class="row">
+        <div class="col-xl-6 vertical-right-divider">
+
+            <div class="row form-group">
+                <div class="col-xl-12">
+                    <span class="title">Members</span>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-xl-12">
+                    <mat-accordion>
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+                                <mat-panel-title>
+                                    <span>Admin / {{adminMemberDataSource.data.length}}</span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <mat-table [dataSource]="adminMemberDataSource">
+
+                                <ng-container matColumnDef="user_name">
+                                    <mat-cell *matCellDef="let element"> {{element.user_name}}
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="email">
+                                    <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="role">
+                                    <mat-cell *matCellDef="let element">
+                                        <mat-select value="admin"
+                                            (selectionChange)="updateRole(element, $event.value);">
+                                            <mat-option [value]="role" *ngFor="let role of roleList">
+                                                {{ role }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="delete">
+                                    <mat-cell *matCellDef="let element">
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                            (click)="deleteMember(element);">Delete</button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-row *matRowDef="let row; columns: memberColumns;"></mat-row>
+                            </mat-table>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-xl-12">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+                                <mat-panel-title>
+                                    <span>Dev / {{devMemberDataSource.data.length}}</span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <mat-table [dataSource]="devMemberDataSource">
+
+                                <ng-container matColumnDef="user_name">
+                                    <mat-cell *matCellDef="let element"> {{element.user_name}}
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="email">
+                                    <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="role">
+                                    <mat-cell *matCellDef="let element">
+                                        <mat-select value="admin"
+                                            (selectionChange)="updateRole(element, $event.value);">
+                                            <mat-option [value]="role" *ngFor="let role of roleList">
+                                                {{ role }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="delete">
+                                    <mat-cell *matCellDef="let element">
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                            (click)="deleteMember(element);">Delete</button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-row *matRowDef="let row; columns: memberColumns;"></mat-row>
+                            </mat-table>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-xl-12">
+
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+                                <mat-panel-title>
+                                    <span>Ops / {{opsMemberDataSource.data.length}}</span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <mat-table [dataSource]="opsMemberDataSource">
+
+                                <ng-container matColumnDef="user_name">
+                                    <mat-cell *matCellDef="let element"> {{element.user_name}}
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="email">
+                                    <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="role">
+                                    <mat-cell *matCellDef="let element">
+                                        <mat-select value="admin"
+                                            (selectionChange)="updateRole(element, $event.value);">
+                                            <mat-option [value]="role" *ngFor="let role of roleList">
+                                                {{ role }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="delete">
+                                    <mat-cell *matCellDef="let element">
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                            (click)="deleteMember(element);">Delete</button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-row *matRowDef="let row; columns: memberColumns;"></mat-row>
+                            </mat-table>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+
+            <div class="row form-group">
+                <div class="col-md-5 offset-md-7">
+                    <div class="form-group">
+                        <input type="text" class="form-control transparent" placeholder="search Username or email"
+                            (input)="pendingMembersFilter($event.target.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-xl-12">
+                    <mat-accordion>
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header [expandedHeight]="expandedHeight">
+                                <mat-panel-title>
+                                    <span>Pending members /
+                                        {{pendingMemberDataSource.data.length}}</span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <mat-table [dataSource]="pendingMemberDataSource">
+
+                                <ng-container matColumnDef="user_name">
+                                    <mat-cell *matCellDef="let element">
+                                        {{convertPendingUserName(element.email)}}
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="email">
+                                    <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="reinvite">
+                                    <mat-cell *matCellDef="let element">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            (click)="reInvite(element);">Re-invite</button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="delete">
+                                    <mat-cell *matCellDef="let element">
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                            (click)="deleteMember(element);">Delete</button>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-row *matRowDef="let row; columns: pendingMemberColumns;"></mat-row>
+                            </mat-table>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

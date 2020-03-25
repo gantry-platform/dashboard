@@ -25,6 +25,8 @@ import { ProjectMembersPageComponent } from './components/project-members-page/p
 import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { AuthService } from './services/auth.service';
+import { ProjectMembersTabComponent } from './components/project-members-tab/project-members-tab.component';
+import { ProjectMembersInviteTabComponent } from './components/project-members-invite-tab/project-members-invite-tab.component';
 
 const keycloakService = new KeycloakService();
 
@@ -43,7 +45,9 @@ const keycloakService = new KeycloakService();
     ProjectServicesPageComponent,
     ProjectMembersPageComponent,
     AlertDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ProjectMembersTabComponent,
+    ProjectMembersInviteTabComponent
   ],
   imports: [
     BrowserModule,

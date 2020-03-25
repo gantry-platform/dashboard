@@ -29,7 +29,7 @@ export class AuthService {
     });
   }
 
-  logout() {
+  logout(): void {
     this.keycloakService.logout();
   }
 }

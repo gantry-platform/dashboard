@@ -20,10 +20,10 @@ export class AlertDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dialogRef.updateSize('412px');
-
     if (this.data.width) {
       this.dialogRef.updateSize(this.data.width);
+    } else {
+      this.dialogRef.updateSize('412px');
     }
   }
 

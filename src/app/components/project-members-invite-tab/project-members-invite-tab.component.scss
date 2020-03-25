@@ -1,0 +1,35 @@
+mat-table {
+    background-color: #002141 !important;
+}
+
+mat-row {
+    border-bottom: 1px solid #ffffff;
+}
+
+mat-table mat-cell {
+    color: #ffffff !important;
+}
+
+.mat-cell {
+    justify-content: center;
+}
+
+.mat-column-user_name {
+    flex: 0 0 25%;
+}
+
+.mat-column-email {
+    justify-content: flex-start;
+}
+
+.mat-column-role,
+.mat-column-reinvite,
+.mat-column-delete {
+    flex: 0 0 15%;
+}
+
+@media (min-width: 1200px) {
+    .row.action {
+        margin-top: 130px;
+    }
+}
