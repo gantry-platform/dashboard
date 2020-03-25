@@ -31,19 +31,27 @@
 
                                 <ng-container matColumnDef="role">
                                     <mat-cell *matCellDef="let element">
-                                        <mat-select value="admin"
-                                            (selectionChange)="updateRole(element, $event.value);">
-                                            <mat-option [value]="role" *ngFor="let role of roleList">
-                                                {{ role }}
-                                            </mat-option>
-                                        </mat-select>
+                                        <ng-container *ngIf="checkProjectOwner(element.user_id); else memberRole;">
+                                            <span>admin</span>
+                                        </ng-container>
+                                        <ng-template #memberRole>
+                                            <mat-select value="admin" (selectionChange)="updateRole(element, $event.value);">
+                                                <mat-option [value]="role" *ngFor="let role of roleList">
+                                                    {{ role }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </ng-template>
                                     </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="delete">
                                     <mat-cell *matCellDef="let element">
-                                        <button type="button" class="btn btn-sm btn-danger"
-                                            (click)="deleteMember(element);">Delete</button>
+                                        <ng-container *ngIf="checkProjectOwner(element.user_id); else memberDelete;">
+                                            <span>Owner</span>
+                                        </ng-container>
+                                        <ng-template #memberDelete>
+                                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteMember(element);">Delete</button>
+                                        </ng-template>                                        
                                     </mat-cell>
                                 </ng-container>
 

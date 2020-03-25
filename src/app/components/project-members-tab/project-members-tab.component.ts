@@ -34,6 +34,10 @@ export class ProjectMembersTabComponent implements OnInit {
     this.pendingMemberDataSource = new MatTableDataSource<Member>(this.projectService.getGroupPendingMembers());
   }
 
+  checkProjectOwner(id: string): boolean {
+    return this.projectService.checkProjectOwner(id);
+  }
+
   convertPendingUserName(value: string): string {
     return value.split('@')[0];
   }

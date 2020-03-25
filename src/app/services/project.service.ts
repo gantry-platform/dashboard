@@ -91,6 +91,10 @@ export class ProjectService {
     return this.project.pending_users;
   }
 
+  checkProjectOwner(id: string): boolean {
+    return (this.project.owner == id) ? true : false;
+  }
+
   checkExistEmail(email: string): boolean {
     const idx: number = this.project.groups.findIndex((g: Group) => {
       if (g.members) {
