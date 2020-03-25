@@ -1,8 +1,8 @@
 <div class="content">
 
-    <div class="main-content">
+    <div class="main-wrapper">
 
-        <div class="row">
+        <div class="row form-group">
             <div class="col-xl-12">
                 <mat-card class="top-mat-card">
                     <span>5,000 Pods</span>
@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row form-group">
             <div class="col mt-auto mb-auto">
                 <button type="button" class="btn btn-sm btn-primary" (click)="createProject();">Create Project</button>
             </div>
@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <div class="row projects-row">
+        <div class="row form-group projects-row">
             <ng-container *ngFor="let project of projects">
                 <ng-container *ngIf="currentView == 'image'">
                     <div class="col-lg-3">
