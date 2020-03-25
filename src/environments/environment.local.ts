@@ -2,8 +2,8 @@ import { KeycloakOptions } from 'keycloak-angular';
 
 const keycloakOptions: KeycloakOptions = {
   config: {
-    url: 'https://keycloak.gantry.ai/auth',
-    realm: 'gantry-service-test',
+    url: 'https://keycloak.dev.gantry.ai/auth',
+    realm: 'gantry',
     clientId: 'dashboard'
   },
   initOptions: {

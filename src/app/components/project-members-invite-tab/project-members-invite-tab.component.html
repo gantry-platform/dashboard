@@ -34,7 +34,7 @@
                         <mat-table [dataSource]="inviteMemberDataSource">
 
                             <ng-container matColumnDef="invite_user_name">
-                                <mat-cell *matCellDef="let element">{{convertInviteUserName()}}</mat-cell>
+                                <mat-cell *matCellDef="let element">{{convertInviteUserName(element.email)}}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="invite_email">

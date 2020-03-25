@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserService } from 'src/app/services/user.service';
@@ -9,6 +9,7 @@ import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/ale
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { take } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
+import { ProjectsService } from 'src/app/restapi/user-swagger/services';
 
 interface InviteMember {
   email: string;
@@ -35,6 +36,7 @@ export class ProjectMembersInviteTabComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private projectService: ProjectService,
+    private projectsService: ProjectsService,
     private dialog: MatDialog
   ) { }
 
@@ -52,6 +54,9 @@ export class ProjectMembersInviteTabComponent implements OnInit {
 
   resetForm(): void {
     this.form.patchValue({ email: '', role: '' });
+    this.form.markAsUntouched();
+    this.emailList = [];
+    this.inviteMemberDataSource.data = [];
   }
 
   get fc_email() { return this.form.get('email'); }
@@ -67,11 +72,12 @@ export class ProjectMembersInviteTabComponent implements OnInit {
     this.emailList.push(inviteMember);
     this.inviteMemberDataSource.data = this.emailList;
 
-    this.resetForm();
+    this.form.patchValue({ email: '', role: '' });
+    this.form.markAsUntouched();
   }
 
-  convertInviteUserName(): string {
-    return this.fc_email.value.split("@")[0];
+  convertInviteUserName(email: string): string {
+    return email.split("@")[0];
   }
 
   deleteInviteMember(element: InviteMember): void {
@@ -102,12 +108,11 @@ export class ProjectMembersInviteTabComponent implements OnInit {
     this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Invite member to Gantry',
-        description: '',
+        description: 'Do you want to send invitation?',
         okText: 'OK',
         cancelText: 'CANCEL'
       }
     }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
-      console.log(confirmed);
       if (confirmed) {
         this.forkInvitationPut();
       }
@@ -138,7 +143,7 @@ export class ProjectMembersInviteTabComponent implements OnInit {
     const invalid: any = Object.keys(this.form.controls).map(name => this.form.controls[name]).filter(control => control.invalid);
 
     if (invalid.length > 0) {
-      invalid.forEach(control => control.markAsTouched({ onlySelf: true }));
+      invalid.forEach((control: FormControl) => control.markAsTouched({ onlySelf: true }));
       return false;
     }
 
@@ -187,25 +192,31 @@ export class ProjectMembersInviteTabComponent implements OnInit {
 
   // 특정 그룹으로 맴버초대
   forkInvitationPut() {
-    let params: any = [];
+    let inviteList: any = [];
 
-    this.emailList.forEach(data => {
+    this.emailList.forEach((data: InviteMember) => {
       const groupId: string = this.projectService.project.groups.find(g => g.name == data.role).id;
 
-      // params.push(
-      //   this.projectService.userIdProjectsProjectIdGroupsGroupIdInvitationPut(
-      //     {
-      //       email: data.email,
-      //       group_id: groupId,
-      //       project_id: this.projectService.project.id,
-      //       user_id: this.userService.user.user_id
-      //     }
-      //   )
-      // );
+      inviteList.push(
+        this.projectsService.userIdProjectsProjectIdGroupsGroupIdInvitationPut({
+          userId: this.userService.user.user_id,
+          projectId: this.projectService.project.id,
+          groupId: groupId,
+          email: data.email
+        })
+      );
     });
 
-    forkJoin(params).subscribe((res) => {
+    forkJoin(inviteList).subscribe((res) => {
       console.log(res);
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'Invites sent',
+          message: `You've invited members to Gantry `
+        }
+      });
+      
+      this.resetForm();
     },
       (err) => { console.error(err); }
     );

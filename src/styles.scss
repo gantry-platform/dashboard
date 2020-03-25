@@ -49,12 +49,12 @@ body {
 }
 
 .main-wrapper {
-    margin: 20px 140px;
+    margin: 25px 140px;
 }
 
 .wrapper {
     margin-top: 20px;
-    padding: 20px;
+    padding: 25px;
     background-color: #002141 !important;
 }
 
@@ -130,11 +130,12 @@ button.wide {
     text-transform: uppercase;
 }
 
-btn-warning {
+.btn-warning,
+.btn-warning:hover {
     color: #ffffff;
 }
 
-.c100sor-pointer {
+.cursor-pointer {
     cursor: pointer;
 }
 
@@ -230,6 +231,7 @@ span.mat-option-text {
 
 .mat-dialog-actions {
     margin-top: 20px;
+    margin-bottom: -10px !important;
 }
 
 @media (max-width: 1200px) {

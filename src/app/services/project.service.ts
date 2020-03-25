@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ProjectsService } from '../restapi/user-swagger/services';
 import { Project, Group, PendingUser, Member } from '../restapi/user-swagger/models';
 import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +14,10 @@ export class ProjectService {
   static readonly DEV_ROLE = 'dev';
   static readonly OPS_ROLE = 'ops';
 
-  userId: string = "55f503e5-0dce-4952-acc0-7f6673da4ba9";
   project: Project = null;
 
   constructor(
+    private userService: UserService,
     private projectsService: ProjectsService
   ) {
   }
@@ -54,11 +56,12 @@ export class ProjectService {
     this.project = null;
   }
 
+  // 프로젝트 정보 조회
   userIdProjectsProjectIdGet(projectId: string): void {
     this.project = null;
 
     const params: any = {
-      userId: this.userId,
+      userId: this.userService.user.user_id,
       projectId: projectId
     }
 
