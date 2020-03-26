@@ -57,7 +57,7 @@ export class ProjectService {
   }
 
   // 프로젝트 정보 조회
-  userIdProjectsProjectIdGet(projectId: string): void {
+  userIdProjectsProjectIdGet(projectId: string = this.project.id): void {
     this.project = null;
 
     const params: any = {

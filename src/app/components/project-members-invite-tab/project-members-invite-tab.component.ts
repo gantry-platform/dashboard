@@ -4,12 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserService } from 'src/app/services/user.service';
 import { ProjectService } from 'src/app/services/project.service';
+import { ProjectsService } from 'src/app/restapi/user-swagger/services';
 import { Member } from 'src/app/restapi/user-swagger/models';
-import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
-import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { take } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
-import { ProjectsService } from 'src/app/restapi/user-swagger/services';
 
 interface InviteMember {
   email: string;
