@@ -2,7 +2,7 @@ import { KeycloakOptions } from 'keycloak-angular';
 
 const keycloakOptions: KeycloakOptions = {
   config: {
-    url: 'https://keycloak.dev.gantry.ai/auth',
+    url: 'http://localhost:8080/auth',
     realm: 'gantry',
     clientId: 'dashboard'
   },
@@ -17,5 +17,5 @@ const keycloakOptions: KeycloakOptions = {
 export const environment = {
   production: false,
   keycloakOptions: keycloakOptions,
-  userManagementRestApi: 'http://localhost:8080'
+  userManagementRestApi: 'http://localhost:8081'
 };
