@@ -12,11 +12,12 @@ export class LoaderInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log("LoaderInterceptor...");
-
         this.loaderService.show();
+
         return next.handle(req).pipe(
-            finalize(() => this.loaderService.hide())
+            finalize(() => {
+                this.loaderService.hide();
+            })
         );
     }
 
