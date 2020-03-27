@@ -203,6 +203,10 @@ span.mat-option-text {
 }
 
 /* Material dialog */
+.mat-dialog-container {
+    max-width: 700px;
+}
+
 .mat-dialog-title.title,
 .mat-dialog-content p.message {
     color: #000000 !important;

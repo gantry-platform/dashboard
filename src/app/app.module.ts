@@ -6,11 +6,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 import { AppComponent } from './app.component';
 import { BackendsModule } from './modules/backends-modules';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { MaterialModule } from './modules/material-module';
-import { LoaderInterceptor } from './components/loader/loader.interceptor';
 import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
@@ -25,6 +25,7 @@ import { ProjectServicesPageComponent } from './components/project-services-page
 import { ProjectMembersPageComponent } from './components/project-members-page/project-members-page.component';
 import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { AuthService } from './services/auth.service';
 import { ProjectMembersTabComponent } from './components/project-members-tab/project-members-tab.component';
 import { ProjectMembersInviteTabComponent } from './components/project-members-invite-tab/project-members-invite-tab.component';
@@ -48,6 +49,7 @@ const keycloakService = new KeycloakService();
     ProjectMembersPageComponent,
     AlertDialogComponent,
     ConfirmDialogComponent,
+    ErrorDialogComponent,
     ProjectMembersTabComponent,
     ProjectMembersInviteTabComponent,
     LoaderComponent
@@ -66,12 +68,9 @@ const keycloakService = new KeycloakService();
     NgMaterialMultilevelMenuModule
   ],
   providers: [
-    {
-      provide: KeycloakService,
-      useValue: keycloakService
-    },
+    { provide: KeycloakService, useValue: keycloakService },
     AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
   ],
   entryComponents: [AppComponent]
 })
