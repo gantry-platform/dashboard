@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Project } from 'src/app/restapi/user-swagger/models';
 import { take } from 'rxjs/operators';
+import { ProjectService } from 'src/app/services/project.service';
+import { ProjectsService, UsersService } from 'src/app/restapi/user-swagger/services';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateProjectPopupComponent } from '../create-project-popup/create-project-popup.component';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -15,7 +19,9 @@ export class DashboardPageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private usersService: UsersService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -24,7 +30,7 @@ export class DashboardPageComponent implements OnInit {
   }
 
   createProject() {
-
+    this.dialog.open(CreateProjectPopupComponent);
   }
 
   navigate(projectId: string): void {

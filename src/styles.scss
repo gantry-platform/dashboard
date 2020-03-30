@@ -44,16 +44,13 @@ body {
   border-color: #dc3545 !important;
 }
 
-// .row+.row {
-//     margin-top: 20px;
-// }
-
-// .row+.row:last-child {
-//     margin-bottom: 20px;
-// }
+.star {
+    color: #dc3545;
+}
 
 span,
 label,
+p,
 a,
 h1,
 h2,
@@ -72,16 +69,22 @@ span:focus {
     outline: none;
 }
 
-input.transparent {
+input.transparent,
+textarea.transparent {
     background-color: transparent;
     color: #ffffff;
 }
 
-input:focus.transparent {
+input:focus.transparent,
+textarea:focus.transparent {
     background-color: transparent;
     border-color: #ffffff;
     box-shadow: none;
     color: #ffffff;
+}
+
+textarea.form-control {
+  resize: none;
 }
 
 .vertical-right-divider {
@@ -126,8 +129,20 @@ mat-icon {
     color: #ffffff;
 }
 
+mat-icon.star {
+    color: red;
+    font-size: 12px;
+    width: 15px;
+    height: 15px;
+}
+
 /* Material divider */
 mat-divider {
+    margin: 15px 0;
+    border-top-color: #ffffff !important;
+}
+
+mat-sidenav mat-divider {
     border: none !important;
 }
 
@@ -204,15 +219,12 @@ span.mat-option-text {
 
 /* Material dialog */
 .mat-dialog-container {
+    background-color: #002141;
     max-width: 700px;
 }
 
-.mat-dialog-title.title,
-.mat-dialog-content p.message {
-    color: #000000 !important;
-}
-.mat-dialog-content p.message {
-    font-size: 16px;
+.mat-dialog-content p {
+    font-size: 17px;
 }
 
 .mat-dialog-actions {

@@ -16,7 +16,7 @@ export class AppComponent {
   ) {
     this.authService.userInfo.subscribe(res => {
       if (!isNullOrUndefined(res)) {
-        this.userService.usersUserIdGet(false);
+        this.userService.usersGet(false);
       }
     });
   }

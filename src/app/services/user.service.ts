@@ -23,7 +23,7 @@ export class UserService {
     });
   }
 
-  usersUserIdGet(projectInfo: boolean): void {
+  usersGet(projectInfo: boolean): void {
     this.user = null;
 
     const params: any = {
@@ -31,7 +31,7 @@ export class UserService {
       projectInfo: projectInfo
     }
 
-    this.usersService.usersUserIdGet(params).pipe(
+    this.usersService.usersGet(params).pipe(
       take(1)
     ).subscribe((res: User) => {
       console.log("유저 정보 조회");

@@ -17,7 +17,7 @@ export interface ConfirmDialogData {
 export class ConfirmDialogComponent implements OnInit {
 
   public okText = 'OK';
-  public cancelText = 'CANCEL';
+  public cancelText = 'Cancel';
 
   constructor(
     private dialogRef: MatDialogRef<ConfirmDialogComponent>,

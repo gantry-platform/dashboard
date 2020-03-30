@@ -30,6 +30,8 @@ import { AuthService } from './services/auth.service';
 import { ProjectMembersTabComponent } from './components/project-members-tab/project-members-tab.component';
 import { ProjectMembersInviteTabComponent } from './components/project-members-invite-tab/project-members-invite-tab.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { CreateProjectPopupComponent } from './components/create-project-popup/create-project-popup.component';
+import { FormFieldErrorComponent } from './components/form-field-error/form-field-error.component';
 
 const keycloakService = new KeycloakService();
 
@@ -52,7 +54,9 @@ const keycloakService = new KeycloakService();
     ErrorDialogComponent,
     ProjectMembersTabComponent,
     ProjectMembersInviteTabComponent,
-    LoaderComponent
+    LoaderComponent,
+    CreateProjectPopupComponent,
+    FormFieldErrorComponent
   ],
   imports: [
     BrowserModule,

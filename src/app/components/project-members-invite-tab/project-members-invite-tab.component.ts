@@ -16,6 +16,11 @@ interface InviteMember {
   role: string;
 }
 
+interface PendingMember {
+  email: string;
+  role: string;
+}
+
 @Component({
   selector: 'app-project-members-invite-tab',
   templateUrl: './project-members-invite-tab.component.html',
@@ -23,12 +28,13 @@ interface InviteMember {
 })
 export class ProjectMembersInviteTabComponent implements OnInit {
 
+  loginUserGroupName: string;
   roleList: Array<string> = [ProjectService.ADMIN_ROLE, ProjectService.DEV_ROLE, ProjectService.OPS_ROLE];
   expandedHeight: string = '48px';
   inviteMemberColumns: string[] = ['invite_user_name', 'invite_email', 'invite_role', 'invite_delete'];
-  pendingMemberColumns: string[] = ['user_name', 'email', 'reinvite', 'delete'];
+  pendingMemberColumns: string[] = ['user_name', 'email', 'role', 'reinvite', 'delete'];
   inviteMemberDataSource: MatTableDataSource<InviteMember> = new MatTableDataSource<InviteMember>([]);
-  pendingMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
+  pendingMemberDataSource: MatTableDataSource<PendingMember> = new MatTableDataSource<PendingMember>([]);
   form: FormGroup;
   emailList: Array<InviteMember> = [];
 
@@ -41,8 +47,15 @@ export class ProjectMembersInviteTabComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.projectService.bsProject.subscribe((res => {
+      this.initGroupPendingMembers();
+    }));
+
+    this.projectService.loginUserGroupName.subscribe((res: string) => {
+      this.loginUserGroupName = res;
+    });
+
     this.initForm();
-    this.initGroupPendingMembers();
   }
 
   initForm(): void {
@@ -120,23 +133,96 @@ export class ProjectMembersInviteTabComponent implements OnInit {
   }
 
   initGroupPendingMembers(): void {
-    this.pendingMemberDataSource.data = this.projectService.getGroupPendingMembers();
+    this.pendingMemberDataSource.data = this.convertPendingMemberDataSource();
   }
 
   convertPendingUserName(value: string): string {
     return value.split('@')[0];
   }
 
+  convertPendingMemberDataSource(): Array<PendingMember> {
+    let pendingMember: Array<PendingMember> = [];
+
+    Object.assign([], this.projectService.getGroupPendingMembers()).forEach(m => {
+      pendingMember.push({ email: m.email, role: '' });
+    });
+
+    return pendingMember;
+  }
+
   pendingMembersFilter(filterValue: string): void {
     this.pendingMemberDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  reInvite(element: Member): void {
-    console.log(element);
+  reInvite(element: PendingMember): void {
+    console.log(element)
+    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'Invite member to Gantry',
+          message: 'Admin permissions required.'
+        }
+      });
+      return;
+    }
+
+    if (element.role == "") {
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'Invite member to Gantry',
+          message: 'Group is required.'
+        }
+      });
+      return;
+    }
+
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Invite member to Gantry',
+        description: 'Do you want to send invitation?',
+        okText: 'OK',
+        cancelText: 'Cancel'
+      }
+    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        const groupId: string = this.projectService.project.groups.find(g => g.name == element.role).id;
+
+        this.projectsService.projectsProjectIdGroupsGroupIdInvitationPut({
+          projectId: this.projectService.project.id,
+          groupId: groupId,
+          email: element.email
+        }).subscribe(() => {
+          this.dialog.open(AlertDialogComponent, {
+            data: {
+              title: 'Invites sent',
+              message: `You've invited members to Gantry`
+            }
+          });
+        },
+          (err) => { console.error(err); }
+        );
+      }
+    });
   }
 
-  deleteMember(element: Member): void {
-    console.log(element);
+  // Pending 멤버 삭제
+  deletePendingMember(element: Member): void {
+    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'Delete pending member',
+          message: 'Admin permissions required.'
+        }
+      });
+      return;
+    }
+
+    // this.projectsService.projectsProjectIdMembersMemberIdDelete({
+    //   projectId: this.projectService.project.id,
+    //   memberId: member.user_id
+    // }).subscribe(() => {
+    //   this.projectService.projectsProjectIdGet();
+    // });
   }
 
   validateForm(): boolean {
@@ -198,8 +284,7 @@ export class ProjectMembersInviteTabComponent implements OnInit {
       const groupId: string = this.projectService.project.groups.find(g => g.name == data.role).id;
 
       inviteList.push(
-        this.projectsService.userIdProjectsProjectIdGroupsGroupIdInvitationPut({
-          userId: this.userService.user.user_id,
+        this.projectsService.projectsProjectIdGroupsGroupIdInvitationPut({
           projectId: this.projectService.project.id,
           groupId: groupId,
           email: data.email
@@ -212,10 +297,10 @@ export class ProjectMembersInviteTabComponent implements OnInit {
       this.dialog.open(AlertDialogComponent, {
         data: {
           title: 'Invites sent',
-          message: `You've invited members to Gantry `
+          message: `You've invited members to Gantry`
         }
       });
-      
+
       this.resetForm();
     },
       (err) => { console.error(err); }

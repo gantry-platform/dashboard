@@ -2,8 +2,7 @@
     <div class="row form-group">
         <div class="col-xl-6 vertical-right-divider">
 
-            <form class="m-form" [formGroup]="form" (keydown.enter)="$event.preventDefault();" autocomplete="off"
-                novalidate>
+            <form [formGroup]="form" (keydown.enter)="$event.preventDefault();" autocomplete="off" novalidate>
 
                 <div class="row form-group">
                     <div class="col-xl-12">
@@ -72,7 +71,7 @@
             <div class="row form-group">
                 <div class="col-md-5 offset-md-7">
                     <div class="form-group">
-                        <input type="text" class="form-control transparent" placeholder="search Username or email"
+                        <input type="text" class="form-control transparent" placeholder="search username or email"
                             (input)="pendingMembersFilter($event.target.value)">
                     </div>
                 </div>
@@ -101,6 +100,18 @@
                                     <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
                                 </ng-container>
 
+                                <ng-container matColumnDef="role">
+                                    <mat-cell *matCellDef="let element">
+                                        <mat-select value={{element.role}}
+                                            (selectionChange)="element.role = $event.value">
+                                            <mat-option value="">Select</mat-option>
+                                            <mat-option [value]="role" *ngFor="let role of roleList">
+                                                {{ role }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-cell>
+                                </ng-container>
+
                                 <ng-container matColumnDef="reinvite">
                                     <mat-cell *matCellDef="let element">
                                         <button type="button" class="btn btn-primary btn-sm"
@@ -111,7 +122,7 @@
                                 <ng-container matColumnDef="delete">
                                     <mat-cell *matCellDef="let element">
                                         <button type="button" class="btn btn-sm btn-danger"
-                                            (click)="deleteMember(element);">Delete</button>
+                                            (click)="deletePendingMember(element);">Delete</button>
                                     </mat-cell>
                                 </ng-container>
 

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ProjectsService } from '../restapi/user-swagger/services';
-import { Project, Group, PendingUser, Member } from '../restapi/user-swagger/models';
-import { take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { UserService } from './user.service';
+import { Project, Group, PendingUser, Member } from '../restapi/user-swagger/models';
+import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,8 @@ export class ProjectService {
   static readonly OPS_ROLE = 'ops';
 
   project: Project = null;
+  bsProject: BehaviorSubject<Project> = new BehaviorSubject<Project>(null);
+  loginUserGroupName = new BehaviorSubject<string>(null);
 
   constructor(
     private userService: UserService,
@@ -22,61 +24,45 @@ export class ProjectService {
   ) {
   }
 
-  // test(): Observable<Project> {
-  //   return this.projectsService.userIdProjectsProjectNameGet({
-  //     userId: '55f503e5-0dce-4952-acc0-7f6673da4ba9',
-  //     projectName: '810ebe23-9871-40eb-8a10-e561cae613f5_test-go-home-333-33311'
-  //   }).pipe(
-  //     take(1)
-  //   );
-  // 
-  //   
-  //   .subscribe((res: Project) => {
-  //     console.log(res);
-  //     this.project1 = res
-  //     this.project = res;
-  //     this.project.groups.find(g=>g.name  == 'admin').members = [];
-  //   },
-  //     (err) => {
-  //       console.error(err);
-  //     }
-  //   );
-  // }
-
-  // userIdProjectsProjectNameGet1(userId: string, projectName: string): void {
-  //   this.project1 = this.projectsService.userIdProjectsProjectNameGet({
-  //     userId: '810ebe23-9871-40eb-8a10-e561cae613f5',
-  //     projectName: '810ebe23-9871-40eb-8a10-e561cae613f5_test-go-home-333-33311'
-  //   }).pipe(
-  //     take(1)
-  //   );
-  // }
-
   clean(): void {
     this.project = null;
   }
 
   // 프로젝트 정보 조회
-  userIdProjectsProjectIdGet(projectId: string = this.project.id): void {
-    this.project = null;
+  projectsProjectIdGet(projectId: string = this.project.id): void {
+    // this.project = null;
 
     const params: any = {
-      userId: this.userService.user.user_id,
       projectId: projectId
     }
 
-    this.projectsService.userIdProjectsProjectIdGet(params).pipe(
+    this.projectsService.projectsProjectIdGet(params).pipe(
       take(1)
     ).subscribe((res: Project) => {
       console.log("프로젝트 정보 조회");
       console.log(res);
       this.project = res;
+      this.bsProject.next(res);
+
+      // 로그인 사용자 그룹
+      const loginUserGroup: Group = this.getLoginUserGroup();
+      if (loginUserGroup) {
+        this.loginUserGroupName.next(loginUserGroup.name);
+      }
     },
       (err) => {
         console.error(err);
       }
     );
   };
+
+  getLoginUserGroup(): Group {
+    return this.project.groups.find((g: Group) => {
+      if (g.members) {
+        return g.members.find((m: Member) => m.user_id == this.userService.userInfo.sub);
+      }
+    });
+  }
 
   getGroupMembersByRole(role: string): Array<Member> {
     let group: Group = Object.assign({}, this.project.groups.find(g => g.name === role));
@@ -92,10 +78,6 @@ export class ProjectService {
 
   getGroupPendingMembers(): Array<PendingUser> {
     return this.project.pending_users;
-  }
-
-  checkProjectOwner(id: string): boolean {
-    return (this.project.owner == id) ? true : false;
   }
 
   checkExistEmail(email: string): boolean {

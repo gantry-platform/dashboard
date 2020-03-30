@@ -2,10 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
-import { ProjectService } from 'src/app/services/project.service';
-import { Member } from 'src/app/restapi/user-swagger/models';
 import { ProjectsService } from 'src/app/restapi/user-swagger/services';
+import { Member } from 'src/app/restapi/user-swagger/models';
+import { ProjectService } from 'src/app/services/project.service';
 import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { take } from 'rxjs/operators';
+
+interface PendingMember {
+  email: string;
+  role: string;
+}
 
 @Component({
   selector: 'app-project-members-tab',
@@ -14,14 +21,15 @@ import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 })
 export class ProjectMembersTabComponent implements OnInit {
 
+  loginUserGroupName: string;
   roleList: Array<string> = [ProjectService.ADMIN_ROLE, ProjectService.DEV_ROLE, ProjectService.OPS_ROLE];
   expandedHeight: string = '48px';
   memberColumns: string[] = ['user_name', 'email', 'role', 'delete'];
-  pendingMemberColumns: string[] = ['user_name', 'email', 'reinvite', 'delete'];
+  pendingMemberColumns: string[] = ['user_name', 'email', 'role', 'reinvite', 'delete'];
   adminMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
   devMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
   opsMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
-  pendingMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
+  pendingMemberDataSource: MatTableDataSource<PendingMember> = new MatTableDataSource<PendingMember>([]);
 
   constructor(
     private userService: UserService,
@@ -31,18 +39,34 @@ export class ProjectMembersTabComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initGroupMembers();
+    this.projectService.bsProject.subscribe((res => {
+      this.initGroupMembers();
+    }));
+
+    this.projectService.loginUserGroupName.subscribe((res: string) => {
+      this.loginUserGroupName = res;
+    });
   }
 
   initGroupMembers(): void {
-    this.adminMemberDataSource = new MatTableDataSource<Member>(this.projectService.getGroupMembersByRole(ProjectService.ADMIN_ROLE));
-    this.devMemberDataSource = new MatTableDataSource<Member>(this.projectService.getGroupMembersByRole(ProjectService.DEV_ROLE));
-    this.opsMemberDataSource = new MatTableDataSource<Member>(this.projectService.getGroupMembersByRole(ProjectService.OPS_ROLE));
-    this.pendingMemberDataSource = new MatTableDataSource<Member>(this.projectService.getGroupPendingMembers());
+    this.adminMemberDataSource.data = this.projectService.getGroupMembersByRole(ProjectService.ADMIN_ROLE);
+    this.devMemberDataSource.data = this.projectService.getGroupMembersByRole(ProjectService.DEV_ROLE);
+    this.opsMemberDataSource.data = this.projectService.getGroupMembersByRole(ProjectService.OPS_ROLE);
+    this.pendingMemberDataSource.data = this.convertPendingMemberDataSource();
   }
 
-  checkProjectOwner(id: string): boolean {
-    return this.projectService.checkProjectOwner(id);
+  isOwner(userId: string): boolean {
+    return (this.projectService.project.owner == userId) ? true : false;
+  }
+
+  convertPendingMemberDataSource(): Array<PendingMember> {
+    let pendingMember: Array<PendingMember> = [];
+
+    Object.assign([], this.projectService.getGroupPendingMembers()).forEach(m => {
+      pendingMember.push({ email: m.email, role: '' });
+    });
+
+    return pendingMember;
   }
 
   convertPendingUserName(value: string): string {
@@ -54,42 +78,115 @@ export class ProjectMembersTabComponent implements OnInit {
   }
 
   // 맴버의 그룹정보 변경
-  updateRole(member: Member, role: string): void {
-    this.projectsService.userIdProjectsProjectIdGroupsGroupIdMembersPatch({
-      userId: this.userService.user.user_id,
-      projectId: this.projectService.project.id,
-      groupId: this.projectService.project.groups.find(g => g.name == role).id,
-      memberId: member.user_id
-    }).subscribe((res) => {
-      console.log(res);
+  updateRole(element: Member, role: string): void {
+    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
       this.dialog.open(AlertDialogComponent, {
         data: {
-          title: 'Update group',
-          message: 'Request was processed normally.'
+          title: 'Update member roles',
+          message: 'Admin permissions required.'
         }
       });
+      return;
+    }
 
-      this.projectService.userIdProjectsProjectIdGet();
-    },
-      (err) => { console.error(err); }
-    );
-
+    this.projectsService.projectsProjectIdGroupsGroupIdMembersPatch({
+      projectId: this.projectService.project.id,
+      groupId: this.projectService.project.groups.find(g => g.name == role).id,
+      memberId: element.user_id
+    }).subscribe(() => {
+      this.projectService.projectsProjectIdGet();
+    });
   }
 
-  reInvite(element: Member): void {
-    console.log(element);
+  reInvite(element: PendingMember): void {
+    console.log(element)
+    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'Invite member to Gantry',
+          message: 'Admin permissions required.'
+        }
+      });
+      return;
+    }
+
+    if (element.role == "") {
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'Invite member to Gantry',
+          message: 'Group is required.'
+        }
+      });
+      return;
+    }
+
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Invite member to Gantry',
+        description: 'Do you want to send invitation?',
+        okText: 'OK',
+        cancelText: 'Cancel'
+      }
+    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        const groupId: string = this.projectService.project.groups.find(g => g.name == element.role).id;
+
+        this.projectsService.projectsProjectIdGroupsGroupIdInvitationPut({
+          projectId: this.projectService.project.id,
+          groupId: groupId,
+          email: element.email
+        }).subscribe(() => {
+          this.dialog.open(AlertDialogComponent, {
+            data: {
+              title: 'Invites sent',
+              message: `You've invited members to Gantry`
+            }
+          });
+        },
+          (err) => { console.error(err); }
+        );
+      }
+    });
   }
 
+  // 프로젝트에서 멤버 삭제
   deleteMember(element: Member): void {
-    console.log(element);
-    // this.projectService.test().subscribe(res=> {
-    //   this.projectService.project = res;
-    //   this.projectService.project.groups.find(g=> g.name == 'admin').members = [];
-    //   console.log(this.projectService.project);
-    //   this.initGroupMembersData();
+    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'Delete member',
+          message: 'Admin permissions required.'
+        }
+      });
+      return;
+    }
+
+    this.projectsService.projectsProjectIdMembersMemberIdDelete({
+      projectId: this.projectService.project.id,
+      memberId: element.user_id
+    }).subscribe(() => {
+      this.projectService.projectsProjectIdGet();
+    });
+  }
+
+  // Pending 멤버 삭제
+  deletePendingMember(element: Member): void {
+    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'Delete pending member',
+          message: 'Admin permissions required.'
+        }
+      });
+      return;
+    }
+
+    // this.projectsService.projectsProjectIdMembersMemberIdDelete({
+    //   projectId: this.projectService.project.id,
+    //   memberId: member.user_id
+    // }).subscribe(() => {
+    //   this.projectService.projectsProjectIdGet();
     // });
-
-
   }
 
 }

@@ -5,7 +5,7 @@ info:
   title: User Mangement
   description: API Gateway를 사용전 까지는 HeaderFilter를 추가해서 Token 유효성확인 Json naming convention은 (_)를 사용한다. e.g.) user_name,project_name
 servers:
-  - url: http://127.0.0.1:8080
+  - url: http://127.0.0.1:8081
     description: 로컬서버
   - url: https://gantryuser.mgmt.dev.gantry.ai
     description: 개발서버
@@ -18,18 +18,12 @@ tags:
   - name: projects
     description: grantry 리소스를 제외한 프로젝트 관리
 paths:
-  /users/{user_id}:
+  /users:
     get:
       summary: 유저 정보 조회
       tags:
         - users
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user_id(not name)
-          schema:
-            type: string
         - name: include_project
           in: query
           required: false
@@ -61,18 +55,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /users/{user_id}/projects:
+  /users/projects:
     post:
       summary: 신규 프로젝트 생성
       tags:
         - users
-      parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user_id(not name)
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -110,18 +97,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_id}:
+  /projects/{project_id}:
     get:
       summary: 프로젝트 정보 조회
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true
@@ -158,12 +139,6 @@ paths:
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true
@@ -202,12 +177,6 @@ paths:
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true
@@ -235,18 +204,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_id}/archive:
+  /projects/{project_id}/archive:
     put:
       summary: 프로젝트 보관
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true
@@ -274,18 +237,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_id}/active:
+  /projects/{project_id}/active:
     put:
       summary: 프로젝트 활성화
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true
@@ -313,18 +270,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_id}/groups:
+  /projects/{project_id}/groups:
     get:
       summary: 프로젝트의 전체 그룹정도(dev,ops,admin) 조회
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true
@@ -358,18 +309,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_id}/groups/{group_id}/invitation:
+  /projects/{project_id}/groups/{group_id}/invitation:
     put:
       summary: 특정 그룹으로 맴버초대
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true
@@ -416,18 +361,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /{user_id}/projects/{project_id}/members/{member_id}:
+  /projects/{project_id}/members/{member_id}:
     delete:
       summary: 특정 맴버를 프로젝트에서 삭제한다.(그룹이 아니라 프로젝트임)
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true
@@ -461,18 +400,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /{user_id}/projects/{project_id}/groups/{group_id}/members:
+  /projects/{project_id}/groups/{group_id}/members:
     get:
       summary: 특정 프로젝트의 전체 맴버를 조회한다.
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true
@@ -517,12 +450,6 @@ paths:
       tags:
         - projects
       parameters:
-        - name: user_id
-          in: path
-          required: true
-          description: user id (not name or email)
-          schema:
-            type: string
         - name: project_id
           in: path
           required: true

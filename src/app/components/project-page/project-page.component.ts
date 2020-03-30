@@ -30,12 +30,12 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
         return;
       }
       
-      this.projectService.userIdProjectsProjectIdGet(projectId);
+      this.projectService.projectsProjectIdGet(projectId);
     });
   }
 
   ngOnDestroy(): void {
-    console.log("Destroy Project page");
+    console.log("Destroy Project Page");
     this.projectService.clean();
   }
 
