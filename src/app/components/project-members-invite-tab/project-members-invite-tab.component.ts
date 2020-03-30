@@ -154,6 +154,7 @@ export class ProjectMembersInviteTabComponent implements OnInit {
     this.pendingMemberDataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  // 특정 그룹으로 멤버 초대
   reInvite(element: PendingMember): void {
     console.log(element)
     if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
@@ -217,12 +218,25 @@ export class ProjectMembersInviteTabComponent implements OnInit {
       return;
     }
 
-    // this.projectsService.projectsProjectIdMembersMemberIdDelete({
-    //   projectId: this.projectService.project.id,
-    //   memberId: member.user_id
-    // }).subscribe(() => {
-    //   this.projectService.projectsProjectIdGet();
-    // });
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Delete member',
+        description: 'Are you sure you want to delete?',
+        okText: 'OK',
+        cancelText: 'Cancel'
+      }
+    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+
+        // this.projectsService.projectsProjectIdMembersMemberIdDelete({
+        //   projectId: this.projectService.project.id,
+        //   memberId: member.user_id
+        // }).subscribe(() => {
+        //   this.projectService.projectsProjectIdGet();
+        // });
+
+      }
+    });
   }
 
   validateForm(): boolean {

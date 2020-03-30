@@ -89,15 +89,27 @@ export class ProjectMembersTabComponent implements OnInit {
       return;
     }
 
-    this.projectsService.projectsProjectIdGroupsGroupIdMembersPatch({
-      projectId: this.projectService.project.id,
-      groupId: this.projectService.project.groups.find(g => g.name == role).id,
-      memberId: element.user_id
-    }).subscribe(() => {
-      this.projectService.projectsProjectIdGet();
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Update member roles',
+        description: 'Are you sure you want to update?',
+        okText: 'OK',
+        cancelText: 'Cancel'
+      }
+    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.projectsService.projectsProjectIdGroupsGroupIdMembersPatch({
+          projectId: this.projectService.project.id,
+          groupId: this.projectService.project.groups.find(g => g.name == role).id,
+          memberId: element.user_id
+        }).subscribe(() => {
+          this.projectService.projectsProjectIdGet();
+        });
+      }
     });
   }
 
+  // 특정 그룹으로 멤버 초대
   reInvite(element: PendingMember): void {
     console.log(element)
     if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
@@ -161,11 +173,22 @@ export class ProjectMembersTabComponent implements OnInit {
       return;
     }
 
-    this.projectsService.projectsProjectIdMembersMemberIdDelete({
-      projectId: this.projectService.project.id,
-      memberId: element.user_id
-    }).subscribe(() => {
-      this.projectService.projectsProjectIdGet();
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Delete member',
+        description: 'Are you sure you want to delete?',
+        okText: 'OK',
+        cancelText: 'Cancel'
+      }
+    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.projectsService.projectsProjectIdMembersMemberIdDelete({
+          projectId: this.projectService.project.id,
+          memberId: element.user_id
+        }).subscribe(() => {
+          this.projectService.projectsProjectIdGet();
+        });
+      }
     });
   }
 
@@ -181,12 +204,25 @@ export class ProjectMembersTabComponent implements OnInit {
       return;
     }
 
-    // this.projectsService.projectsProjectIdMembersMemberIdDelete({
-    //   projectId: this.projectService.project.id,
-    //   memberId: member.user_id
-    // }).subscribe(() => {
-    //   this.projectService.projectsProjectIdGet();
-    // });
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Delete member',
+        description: 'Are you sure you want to delete?',
+        okText: 'OK',
+        cancelText: 'Cancel'
+      }
+    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+
+        // this.projectsService.projectsProjectIdMembersMemberIdDelete({
+        //   projectId: this.projectService.project.id,
+        //   memberId: member.user_id
+        // }).subscribe(() => {
+        //   this.projectService.projectsProjectIdGet();
+        // });
+
+      }
+    });
   }
 
 }
