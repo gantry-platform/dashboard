@@ -173,6 +173,16 @@ export class ProjectMembersTabComponent implements OnInit {
       return;
     }
 
+    if (this.userService.user.user_name == element.user_name) {
+      this.dialog.open(AlertDialogComponent, {
+        data: {
+          title: 'Delete member',
+          message: 'Do not delete me.'
+        }
+      });
+      return;
+    }
+
     this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Delete member',
@@ -206,21 +216,19 @@ export class ProjectMembersTabComponent implements OnInit {
 
     this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: 'Delete member',
+        title: 'Delete pending member',
         description: 'Are you sure you want to delete?',
         okText: 'OK',
         cancelText: 'Cancel'
       }
     }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
       if (confirmed) {
-
-        // this.projectsService.projectsProjectIdMembersMemberIdDelete({
-        //   projectId: this.projectService.project.id,
-        //   memberId: member.user_id
-        // }).subscribe(() => {
-        //   this.projectService.projectsProjectIdGet();
-        // });
-
+        this.projectsService.projectsProjectIdGroupsInvitationDelete({
+          projectId: this.projectService.project.id,
+          email: element.email
+        }).subscribe(() => {
+          this.projectService.projectsProjectIdGet();
+        });
       }
     });
   }

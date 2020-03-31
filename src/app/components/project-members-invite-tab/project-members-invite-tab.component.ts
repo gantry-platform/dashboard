@@ -220,21 +220,19 @@ export class ProjectMembersInviteTabComponent implements OnInit {
 
     this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: 'Delete member',
+        title: 'Delete pending member',
         description: 'Are you sure you want to delete?',
         okText: 'OK',
         cancelText: 'Cancel'
       }
     }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
       if (confirmed) {
-
-        // this.projectsService.projectsProjectIdMembersMemberIdDelete({
-        //   projectId: this.projectService.project.id,
-        //   memberId: member.user_id
-        // }).subscribe(() => {
-        //   this.projectService.projectsProjectIdGet();
-        // });
-
+        this.projectsService.projectsProjectIdGroupsInvitationDelete({
+          projectId: this.projectService.project.id,
+          email: element.email
+        }).subscribe(() => {
+          this.projectService.projectsProjectIdGet();
+        });
       }
     });
   }

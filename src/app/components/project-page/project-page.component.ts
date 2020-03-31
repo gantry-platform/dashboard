@@ -23,6 +23,12 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activatedRoute.params.pipe(map(p => p.id)).subscribe(projectId => {
+      
+      if(!this.userService.user.projects) {
+        this.router.navigate(['/']);
+        return;
+      }
+
       const idx: number = this.userService.user.projects.findIndex(p => p.id == projectId);
 
       if (idx === -1) {

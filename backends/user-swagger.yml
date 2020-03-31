@@ -360,6 +360,44 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /projects/{project_id}/groups/invitation:
+    delete:
+      summary: 특정 맴버를 invitation 리스트에서 삭제한다.
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /projects/{project_id}/members/{member_id}:
     delete:
