@@ -26,7 +26,7 @@ podTemplate(
 ) {
     node(g_pod_label) {
         def app_name = 'dashboard'
-        def tag = "dev-v${env.BUILD_NUMBER}"
+        def tag = "${BUILD_TYPE}" == 'build-prod' ? "prod-v${env.BUILD_NUMBER}" : 'dev-v${env.BUILD_NUMBER}'
         def branch_name = "${BUILD_TYPE}" == 'build-prod' ? 'master' : 'dev-master'
         // Gitlab
         def git_url = 'https://gitlab.gantry.ai/gantry/platform/dashboard.git'
