@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dashboard
-  namespace: dashboard
+  namespace: gantry
   labels:
     app: dashboard
 spec:
@@ -21,4 +21,4 @@ spec:
         ports:
         - containerPort: 80
       imagePullSecrets:
-      - name: harbor-secret
+      - name: harbor-cred

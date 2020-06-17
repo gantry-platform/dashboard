@@ -2,13 +2,13 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: dashboard-ingress
-  namespace: dashboard
+  namespace: gantry
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: dashboard.gantry.ai
+  - host: dashboard.dev.gantry.ai
     http:
       paths:
       - path: /
@@ -17,5 +17,5 @@ spec:
           servicePort: 80
   tls:
   - hosts:
-    - dashboard.gantry.ai
+    - dashboard.dev.gantry.ai
     secretName: dashboard-ingress-tls
