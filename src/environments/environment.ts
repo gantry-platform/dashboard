@@ -2,8 +2,8 @@ import { KeycloakOptions } from 'keycloak-angular';
 
 const keycloakOptions: KeycloakOptions = {
   config: {
-    url: 'https://keycloak.mgmt.dev.gantry.ai/auth',
-    realm: 'sso-dev',
+    url: 'https://keycloak.dev.gantry.ai/auth',
+    realm: 'gantry',
     clientId: 'dashboard'
   },
   initOptions: {
@@ -17,5 +17,5 @@ const keycloakOptions: KeycloakOptions = {
 export const environment = {
   production: false,
   keycloakOptions: keycloakOptions,
-  userManagementRestApi: 'https://gantryuser.mgmt.dev.gantry.ai'
+  userManagementRestApi: 'https://user.dev.gantry.ai'
 };
