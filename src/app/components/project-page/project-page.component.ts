@@ -22,22 +22,22 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.params.pipe(map(p => p.id)).subscribe(projectId => {
+    // this.activatedRoute.params.pipe(map(p => p.id)).subscribe(projectId => {
       
-      if(!this.userService.user.projects) {
-        this.router.navigate(['/']);
-        return;
-      }
+    //   if(!this.userService.user.projects) {
+    //     this.router.navigate(['/']);
+    //     return;
+    //   }
 
-      const idx: number = this.userService.user.projects.findIndex(p => p.id == projectId);
+    //   const idx: number = this.userService.user.projects.findIndex(p => p.id == projectId);
 
-      if (idx === -1) {
-        this.router.navigate(['/404']);
-        return;
-      }
+    //   if (idx === -1) {
+    //     this.router.navigate(['/404']);
+    //     return;
+    //   }
       
-      this.projectService.projectsProjectIdGet(projectId);
-    });
+    //   this.projectService.projectsProjectIdGet(projectId);
+    // });
   }
 
   ngOnDestroy(): void {

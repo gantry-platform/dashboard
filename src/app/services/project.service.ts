@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ProjectsService } from '../restapi/user-swagger/services';
+import { ProjectsService } from '../restapi/project-swagger/services';
 import { UserService } from './user.service';
-import { Project, Group, PendingUser, Member } from '../restapi/user-swagger/models';
+import { Project, Group, PendingUser, Member } from '../restapi/project-swagger/models';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 

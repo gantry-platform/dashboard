@@ -23,22 +23,24 @@ export class UserService {
     });
   }
 
+  // usersGet(projectInfo: boolean): void {
+  //   this.user = null;
+
+  //   const params: any = {
+  //     userId: this.userInfo.sub,
+  //     projectInfo: projectInfo
+  //   }
+
+  //   this.usersService.usersGet(params).pipe(
+  //     take(1)
+  //   ).subscribe((res: User) => {
+  //     console.log("유저 정보 조회");
+  //     console.log(res);
+  //     this.user = res;
+  //   },
+  //     (err) => { console.error(err); }
+  //   );
+  // }
   usersGet(projectInfo: boolean): void {
-    this.user = null;
-
-    const params: any = {
-      userId: this.userInfo.sub,
-      projectInfo: projectInfo
-    }
-
-    this.usersService.usersGet(params).pipe(
-      take(1)
-    ).subscribe((res: User) => {
-      console.log("유저 정보 조회");
-      console.log(res);
-      this.user = res;
-    },
-      (err) => { console.error(err); }
-    );
   }
 }

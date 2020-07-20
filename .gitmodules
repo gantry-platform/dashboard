@@ -1,3 +1,6 @@
 [submodule "backends/user-management"]
 	path = backends/user-management
 	url = git@gitlab.gantry.ai:gantry/platform/user-management.git
+[submodule "backends/project-management"]
+	path = backends/project-management
+	url = git@gitlab.gantry.ai:gantry/platform/project-management.git

@@ -42,19 +42,19 @@ export class CreateProjectPopupComponent implements OnInit {
 
   create(): void {
 
-    if (!this.validateForm()) return;
+    // if (!this.validateForm()) return;
 
-    const param = {
-      body: {
-        display_name: this.fc_displayName.value,
-        description: this.fc_description.value
-      }
-    }
+    // const param = {
+    //   body: {
+    //     display_name: this.fc_displayName.value,
+    //     description: this.fc_description.value
+    //   }
+    // }
 
-    this.usersService.usersProjectsPost(param).subscribe(() => {
-      this.userService.usersGet(false);
-      this.dialogRef.close();
-    });
+    // this.usersService.usersProjectsPost(param).subscribe(() => {
+    //   this.userService.usersGet(false);
+    //   this.dialogRef.close();
+    // });
   }
 
   validateForm() {

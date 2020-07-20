@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/user.service';
-import { ProjectsService } from 'src/app/restapi/user-swagger/services';
-import { Member } from 'src/app/restapi/user-swagger/models';
+// import { ProjectsService } from 'src/app/restapi/user-swagger/services';
+// import { Member } from 'src/app/restapi/user-swagger/models';
 import { ProjectService } from 'src/app/services/project.service';
 import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
@@ -26,14 +26,17 @@ export class ProjectMembersTabComponent implements OnInit {
   expandedHeight: string = '48px';
   memberColumns: string[] = ['user_name', 'email', 'role', 'delete'];
   pendingMemberColumns: string[] = ['user_name', 'email', 'role', 'reinvite', 'delete'];
-  adminMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
-  devMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
-  opsMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
+  // adminMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
+  // devMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
+  // opsMemberDataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>([]);
+  adminMemberDataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
+  devMemberDataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
+  opsMemberDataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
   pendingMemberDataSource: MatTableDataSource<PendingMember> = new MatTableDataSource<PendingMember>([]);
 
   constructor(
     private userService: UserService,
-    private projectsService: ProjectsService,
+    // private projectsService: ProjectsService,
     private projectService: ProjectService,
     private dialog: MatDialog
   ) { }
@@ -78,159 +81,171 @@ export class ProjectMembersTabComponent implements OnInit {
   }
 
   // 맴버의 그룹정보 변경
-  updateRole(element: Member, role: string): void {
-    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
-      this.dialog.open(AlertDialogComponent, {
-        data: {
-          title: 'Update member roles',
-          message: 'Admin permissions required.'
-        }
-      });
-      return;
-    }
+  // updateRole(element: Member, role: string): void {
+  //   if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
+  //     this.dialog.open(AlertDialogComponent, {
+  //       data: {
+  //         title: 'Update member roles',
+  //         message: 'Admin permissions required.'
+  //       }
+  //     });
+  //     return;
+  //   }
 
-    this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: 'Update member roles',
-        description: 'Are you sure you want to update?',
-        okText: 'OK',
-        cancelText: 'Cancel'
-      }
-    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.projectsService.projectsProjectIdGroupsGroupIdMembersPatch({
-          projectId: this.projectService.project.id,
-          groupId: this.projectService.project.groups.find(g => g.name == role).id,
-          memberId: element.user_id
-        }).subscribe(() => {
-          this.projectService.projectsProjectIdGet();
-        });
-      }
-    });
+  //   this.dialog.open(ConfirmDialogComponent, {
+  //     data: {
+  //       title: 'Update member roles',
+  //       description: 'Are you sure you want to update?',
+  //       okText: 'OK',
+  //       cancelText: 'Cancel'
+  //     }
+  //   }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+  //     if (confirmed) {
+  //       this.projectsService.projectsProjectIdGroupsGroupIdMembersPatch({
+  //         projectId: this.projectService.project.id,
+  //         groupId: this.projectService.project.groups.find(g => g.name == role).id,
+  //         memberId: element.user_id
+  //       }).subscribe(() => {
+  //         this.projectService.projectsProjectIdGet();
+  //       });
+  //     }
+  //   });
+  // }
+  updateRole(element: any, role: string): void {
+    
   }
 
   // 특정 그룹으로 멤버 초대
+  // reInvite(element: PendingMember): void {
+  //   console.log(element)
+  //   if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
+  //     this.dialog.open(AlertDialogComponent, {
+  //       data: {
+  //         title: 'Invite member to Gantry',
+  //         message: 'Admin permissions required.'
+  //       }
+  //     });
+  //     return;
+  //   }
+
+  //   if (element.role == "") {
+  //     this.dialog.open(AlertDialogComponent, {
+  //       data: {
+  //         title: 'Invite member to Gantry',
+  //         message: 'Group is required.'
+  //       }
+  //     });
+  //     return;
+  //   }
+
+  //   this.dialog.open(ConfirmDialogComponent, {
+  //     data: {
+  //       title: 'Invite member to Gantry',
+  //       description: 'Do you want to send invitation?',
+  //       okText: 'OK',
+  //       cancelText: 'Cancel'
+  //     }
+  //   }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+  //     if (confirmed) {
+  //       const groupId: string = this.projectService.project.groups.find(g => g.name == element.role).id;
+
+  //       this.projectsService.projectsProjectIdGroupsGroupIdInvitationPut({
+  //         projectId: this.projectService.project.id,
+  //         groupId: groupId,
+  //         email: element.email
+  //       }).subscribe(() => {
+  //         this.dialog.open(AlertDialogComponent, {
+  //           data: {
+  //             title: 'Invites sent',
+  //             message: `You've invited members to Gantry`
+  //           }
+  //         });
+  //       },
+  //         (err) => { console.error(err); }
+  //       );
+  //     }
+  //   });
+  // }
   reInvite(element: PendingMember): void {
-    console.log(element)
-    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
-      this.dialog.open(AlertDialogComponent, {
-        data: {
-          title: 'Invite member to Gantry',
-          message: 'Admin permissions required.'
-        }
-      });
-      return;
-    }
-
-    if (element.role == "") {
-      this.dialog.open(AlertDialogComponent, {
-        data: {
-          title: 'Invite member to Gantry',
-          message: 'Group is required.'
-        }
-      });
-      return;
-    }
-
-    this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: 'Invite member to Gantry',
-        description: 'Do you want to send invitation?',
-        okText: 'OK',
-        cancelText: 'Cancel'
-      }
-    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        const groupId: string = this.projectService.project.groups.find(g => g.name == element.role).id;
-
-        this.projectsService.projectsProjectIdGroupsGroupIdInvitationPut({
-          projectId: this.projectService.project.id,
-          groupId: groupId,
-          email: element.email
-        }).subscribe(() => {
-          this.dialog.open(AlertDialogComponent, {
-            data: {
-              title: 'Invites sent',
-              message: `You've invited members to Gantry`
-            }
-          });
-        },
-          (err) => { console.error(err); }
-        );
-      }
-    });
+   
   }
 
   // 프로젝트에서 멤버 삭제
-  deleteMember(element: Member): void {
-    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
-      this.dialog.open(AlertDialogComponent, {
-        data: {
-          title: 'Delete member',
-          message: 'Admin permissions required.'
-        }
-      });
-      return;
-    }
+  // deleteMember(element: Member): void {
+  //   if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
+  //     this.dialog.open(AlertDialogComponent, {
+  //       data: {
+  //         title: 'Delete member',
+  //         message: 'Admin permissions required.'
+  //       }
+  //     });
+  //     return;
+  //   }
 
-    if (this.userService.user.user_name == element.user_name) {
-      this.dialog.open(AlertDialogComponent, {
-        data: {
-          title: 'Delete member',
-          message: 'Do not delete me.'
-        }
-      });
-      return;
-    }
+  //   if (this.userService.user.user_name == element.user_name) {
+  //     this.dialog.open(AlertDialogComponent, {
+  //       data: {
+  //         title: 'Delete member',
+  //         message: 'Do not delete me.'
+  //       }
+  //     });
+  //     return;
+  //   }
 
-    this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: 'Delete member',
-        description: 'Are you sure you want to delete?',
-        okText: 'OK',
-        cancelText: 'Cancel'
-      }
-    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.projectsService.projectsProjectIdMembersMemberIdDelete({
-          projectId: this.projectService.project.id,
-          memberId: element.user_id
-        }).subscribe(() => {
-          this.projectService.projectsProjectIdGet();
-        });
-      }
-    });
+  //   this.dialog.open(ConfirmDialogComponent, {
+  //     data: {
+  //       title: 'Delete member',
+  //       description: 'Are you sure you want to delete?',
+  //       okText: 'OK',
+  //       cancelText: 'Cancel'
+  //     }
+  //   }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+  //     if (confirmed) {
+  //       this.projectsService.projectsProjectIdMembersMemberIdDelete({
+  //         projectId: this.projectService.project.id,
+  //         memberId: element.user_id
+  //       }).subscribe(() => {
+  //         this.projectService.projectsProjectIdGet();
+  //       });
+  //     }
+  //   });
+  // }
+  deleteMember(element: any): void {
+    
   }
 
   // Pending 멤버 삭제
-  deletePendingMember(element: Member): void {
-    if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
-      this.dialog.open(AlertDialogComponent, {
-        data: {
-          title: 'Delete pending member',
-          message: 'Admin permissions required.'
-        }
-      });
-      return;
-    }
+  // deletePendingMember(element: Member): void {
+  //   if (this.loginUserGroupName != ProjectService.ADMIN_ROLE) {
+  //     this.dialog.open(AlertDialogComponent, {
+  //       data: {
+  //         title: 'Delete pending member',
+  //         message: 'Admin permissions required.'
+  //       }
+  //     });
+  //     return;
+  //   }
 
-    this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: 'Delete pending member',
-        description: 'Are you sure you want to delete?',
-        okText: 'OK',
-        cancelText: 'Cancel'
-      }
-    }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.projectsService.projectsProjectIdGroupsInvitationDelete({
-          projectId: this.projectService.project.id,
-          email: element.email
-        }).subscribe(() => {
-          this.projectService.projectsProjectIdGet();
-        });
-      }
-    });
+  //   this.dialog.open(ConfirmDialogComponent, {
+  //     data: {
+  //       title: 'Delete pending member',
+  //       description: 'Are you sure you want to delete?',
+  //       okText: 'OK',
+  //       cancelText: 'Cancel'
+  //     }
+  //   }).afterClosed().pipe(take(1)).subscribe((confirmed: boolean) => {
+  //     if (confirmed) {
+  //       this.projectsService.projectsProjectIdGroupsInvitationDelete({
+  //         projectId: this.projectService.project.id,
+  //         email: element.email
+  //       }).subscribe(() => {
+  //         this.projectService.projectsProjectIdGet();
+  //       });
+  //     }
+  //   });
+  // }
+  deletePendingMember(element: any): void {
+   
   }
 
 }

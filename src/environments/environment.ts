@@ -17,5 +17,6 @@ const keycloakOptions: KeycloakOptions = {
 export const environment = {
   production: false,
   keycloakOptions: keycloakOptions,
-  userManagementRestApi: 'https://user.dev.gantry.ai'
+  userManagementRestApi: 'https://user.dev.gantry.ai',
+  projectManagementRestApi: 'https://project.dev.gantry.ai'  
 };

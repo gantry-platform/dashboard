@@ -1,1 +1,2 @@
 user-management dev user-swagger
+project-management dev project-swagger

@@ -1,0 +1,624 @@
+
+openapi: "3.0.0"
+info:
+  version: 0.1.0
+  title: Project Mangement
+  description: API Gateway를 사용전 까지는 HeaderFilter를 추가해서 Token 유효성확인 Json naming convention은 (_)를 사용한다.e.g.) user_name,project_name
+    Project는 Header로 전달되는 access_token or apigateway로 부터 전달되는 gantry 사용자의 아이디
+    정보를 가지고 모든 처리를 한다.
+servers:
+  - url: http://127.0.0.1:8080
+    description: 로컬서버
+  - url: https://project.dev.gantry.ai
+    description: 개발서버
+  - url: https://project.gantry.ai
+    description: 운영서버
+
+tags:
+  - name: projects
+    description: grantry project 관리
+paths:
+  /projects:
+    get:
+      summary: project 정보 조회
+      tags:
+        - projects
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: 신규 프로젝트 생성
+      tags:
+        - projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProject'
+      responses:
+        '201':
+          description: Create
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /projects/{project_id}:
+    get:
+      summary: 프로젝트 정보 조회
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: 프로젝트 업데이트 (owner and description)
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProject'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: 프로젝트 삭제
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /projects/{project_id}/archive:
+    put:
+      summary: 프로젝트 보관
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /projects/{project_id}/active:
+    put:
+      summary: 프로젝트 활성화
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /projects/{project_id}/groups:
+    get:
+      summary: 프로젝트의 전체 그룹정도(dev,ops,admin) 조회
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /projects/{project_id}/groups/{group_id}/invitation:
+    put:
+      summary: 특정 그룹으로 맴버초대
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+        - name: group_id
+          in: path
+          required: true
+          description: group_id
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: true
+          description: email
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /projects/{project_id}/groups/invitation:
+    delete:
+      summary: 특정 맴버를 invitation 리스트에서 삭제한다.
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /projects/{project_id}/members/{member_id}:
+    delete:
+      summary: 특정 맴버를 프로젝트에서 삭제한다.(그룹이 아니라 프로젝트임)
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+        - name: member_id
+          in: path
+          required: true
+          description: user id == member_id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /projects/{project_id}/groups/{group_id}/members:
+    get:
+      summary: 특정 프로젝트의 전체 맴버를 조회한다.
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+        - name: group_id
+          in: path
+          required: true
+          description: group id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Member'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: 맴버의 그룹정보를 변경한다.(e.g.) admin to ops)
+      tags:
+        - projects
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: project id
+          schema:
+            type: string
+        - name: group_id
+          in: path
+          required: true
+          description: group id
+          schema:
+            type: string
+        - name: member_id
+          in: query
+          required: true
+          description: member id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+        email:
+          type: string
+        user_name:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email_verified:
+          type: boolean
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        owner:
+          type: string
+        status:
+          type: string
+          enum:
+            - archive
+            - active
+        groups:
+          type: array
+          items:
+            $ref: "#/components/schemas/Group"
+        pending_users:
+          type: array
+          items:
+            $ref: "#/components/schemas/PendingUser"
+
+    PendingUser:
+      type: object
+      properties:
+        email:
+          type: string
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/Member"
+    Member:
+      type: object
+      properties:
+        user_id:
+          type: string
+        user_name:
+          type: string
+        email:
+          type: string
+        email_verified:
+          type: boolean
+    NewProject:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    UpdateProject:
+      type: object
+      properties:
+        owner:
+          type: string
+        description:
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
