@@ -1,9 +1,11 @@
 <ng-container *ngIf="authService.userInfo | async">
-    <app-toolbar></app-toolbar>
+    <ng-container *ngIf="userService.user">
 
-    <ng-container *ngIf="userService.user != null">
+        <app-toolbar></app-toolbar>
+
         <router-outlet></router-outlet>
-    </ng-container>
 
-    <app-loader></app-loader>
+        <!-- <app-loader></app-loader> -->
+
+    </ng-container>
 </ng-container>

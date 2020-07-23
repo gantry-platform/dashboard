@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpInterceptor, HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../components/error-dialog/error-dialog.component';
@@ -12,6 +13,7 @@ import { finalize } from "rxjs/operators";
 export class HttpConfigInterceptor implements HttpInterceptor {
 
     constructor(
+        private router: Router,
         private authService: AuthService,
         private loaderService: LoaderService,
         private dialog: MatDialog
@@ -54,9 +56,12 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                 this.dialog.open(ErrorDialogComponent, {
                     data: data
                 }).afterClosed().pipe(take(1)).subscribe(() => {
-                    // if (error.status === 401 && error.statusText === 'Unauthorized') {
-                    //     this.authService.logout();
-                    // }
+                    if (error.status === 401 && error.statusText === 'Unauthorized') {
+                        this.authService.logout();
+                    }
+                    if (error.status === 404) {
+                        this.router.navigate(['/404']);
+                    }
                 });
                 return throwError(error);
             }),

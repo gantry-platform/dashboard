@@ -32,6 +32,7 @@ import { ProjectMembersInviteTabComponent } from './components/project-members-i
 import { LoaderComponent } from './components/loader/loader.component';
 import { CreateProjectPopupComponent } from './components/create-project-popup/create-project-popup.component';
 import { FormFieldErrorComponent } from './components/form-field-error/form-field-error.component';
+import { FormDirective } from './directives/form.directive';
 
 const keycloakService = new KeycloakService();
 
@@ -56,7 +57,8 @@ const keycloakService = new KeycloakService();
     ProjectMembersInviteTabComponent,
     LoaderComponent,
     CreateProjectPopupComponent,
-    FormFieldErrorComponent
+    FormFieldErrorComponent,
+    FormDirective,
   ],
   imports: [
     BrowserModule,

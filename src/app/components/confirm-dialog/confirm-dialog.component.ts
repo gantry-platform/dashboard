@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface ConfirmDialogData {
   title: string;
-  description?: string;
+  message?: string;
   okText?: string;
   cancelText?: string;
   width?: string;
@@ -43,7 +43,7 @@ export class ConfirmDialogComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  ok(): void {
+  confirm(): void {
     this.dialogRef.close(true);
   }
 

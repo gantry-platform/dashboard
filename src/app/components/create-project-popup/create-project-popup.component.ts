@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsersService } from 'src/app/restapi/user-swagger/services';
 import { ProjectService } from 'src/app/services/project.service';
-import { UserService } from 'src/app/services/user.service';
+import { Project } from 'src/app/restapi/project-swagger/models';
+import { take } from 'rxjs/operators';
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-create-project-popup',
@@ -17,8 +18,8 @@ export class CreateProjectPopupComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<CreateProjectPopupComponent>,
     private fb: FormBuilder,
-    private usersService: UsersService,
-    private userService: UserService
+    private projectService: ProjectService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -28,51 +29,41 @@ export class CreateProjectPopupComponent implements OnInit {
 
   initForm(): void {
     this.form = this.fb.group({
-      display_name: ['', Validators.required],
+      name: ['', Validators.required],
       description: ''
     });
   }
 
-  get fc_displayName() { return this.form.get('display_name'); }
+  get fc_name() { return this.form.get('name'); }
   get fc_description() { return this.form.get('description'); }
 
   cancel(): void {
     this.dialogRef.close();
   }
 
-  create(): void {
+  submit(): void {
+    if (this.form.valid) {
+      this.projectService.projectsPost(this.fc_name.value, this.fc_description.value).pipe(
+        take(1)
+      ).subscribe((res: Project) => {
+        console.log("신규 프로젝트 생성");
+        console.log(res);
 
-    // if (!this.validateForm()) return;
-
-    // const param = {
-    //   body: {
-    //     display_name: this.fc_displayName.value,
-    //     description: this.fc_description.value
-    //   }
-    // }
-
-    // this.usersService.usersProjectsPost(param).subscribe(() => {
-    //   this.userService.usersGet(false);
-    //   this.dialogRef.close();
-    // });
-  }
-
-  validateForm() {
-    let invalid: any = Object.keys(this.form.controls).map(name => this.form.controls[name]).filter(control => control.invalid);
-
-    if (invalid.length > 0) {
-      invalid.forEach(control => control.markAsTouched({ onlySelf: true }));
-      return false;
+        this.projectService.projectsGet();
+        this.dialogRef.close();
+      },
+        (err) => {
+          this.dialogRef.close();
+        }
+      );
     }
-
-    return true;
   }
 
-  isFieldValid(name: string) {
+  isFieldValid(name: string): boolean {
     return this.form.get(name).invalid && this.form.get(name).touched;
   }
 
-  displayFieldCss(field: string) {
+  displayFieldCss(field: string): any {
     return { 'has-error': this.isFieldValid(field) };
   }
 

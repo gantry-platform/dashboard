@@ -1,11 +1,12 @@
-<h2 mat-dialog-title class="title">Create Project</h2>
+<form focusInvalidInput [formGroup]="form" autocomplete="off" novalidate>
+    
+    <h2 mat-dialog-title class="title">Create Project</h2>
 
-<div mat-dialog-content>
-    <form [formGroup]="form" autocomplete="off" novalidate>
+    <div mat-dialog-content>
         <div class="row form-group">
-            <div class="col-xl-12" [ngClass]="displayFieldCss('display_name')">
+            <div class="col-xl-12" [ngClass]="displayFieldCss('name')">
                 <label><mat-icon class="star">star</mat-icon> Name</label>
-                <input class="form-control transparent" type="text" formControlName="display_name">
+                <input class="form-control transparent" type="text" formControlName="name">
             </div>
         </div>
 
@@ -15,10 +16,11 @@
                 <textarea class="form-control transparent" rows="4" type="text" formControlName="description"></textarea>
             </div>
         </div>
-    </form>
-</div>
-
-<div mat-dialog-actions align="center">
-    <button class="btn btn-secondary wide" (click)="cancel();">Cancel</button>
-    <button class="btn btn-primary wide" (click)="create();">OK</button>
-</div>
+    </div>
+    
+    <div mat-dialog-actions align="center">
+        <button class="btn btn-secondary wide" (click)="cancel();">Cancel</button>
+        <button class="btn btn-primary wide" (click)="submit();">OK</button>
+    </div>
+    
+</form>

@@ -30,6 +30,6 @@ export class AuthService {
   }
 
   logout(): void {
-    this.keycloakService.logout();
+    this.keycloakService.logout(location.origin);
   }
 }

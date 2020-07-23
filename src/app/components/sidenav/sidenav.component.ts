@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
 import { ProjectService } from 'src/app/services/project.service';
 import { Configuration, MultilevelNodes } from 'ng-material-multilevel-menu';
 
@@ -17,7 +16,6 @@ export class SidenavComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: UserService,
     public projectService: ProjectService
   ) {
   }
@@ -69,7 +67,6 @@ export class SidenavComponent implements OnInit {
 
   itemLink(menu: string): string {
     return `/project/${this.projectService.project.id}/${menu}`;
-    return "";
   }
 
   navigate(event: any): void {

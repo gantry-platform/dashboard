@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
 import { UsersService } from '../restapi/user-swagger/services';
 import { User } from '../restapi/user-swagger/models';
-import { UserInfo } from './auth.service'
+import { AuthService, UserInfo } from './auth.service';
 import { take } from 'rxjs/operators';
+import { isNullOrUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -15,32 +15,35 @@ export class UserService {
 
   constructor(
     private authService: AuthService,
-    private usersService: UsersService
+    private userRestApiService: UsersService
   ) {
     this.authService.userInfo.subscribe((res: UserInfo) => {
-      this.userInfo = res;
-      console.log(this.userInfo);
+      if (!isNullOrUndefined(res)) {
+        this.userInfo = res;
+        console.log(this.userInfo);
+
+        this.usersUserIdGet(this.userInfo.sub);
+      }
     });
   }
 
-  // usersGet(projectInfo: boolean): void {
-  //   this.user = null;
+  // 사용자 조회
+  usersUserIdGet(userId: string) {
+    this.user = null;
 
-  //   const params: any = {
-  //     userId: this.userInfo.sub,
-  //     projectInfo: projectInfo
-  //   }
+    const params: any = {
+      userId: userId
+    }
 
-  //   this.usersService.usersGet(params).pipe(
-  //     take(1)
-  //   ).subscribe((res: User) => {
-  //     console.log("유저 정보 조회");
-  //     console.log(res);
-  //     this.user = res;
-  //   },
-  //     (err) => { console.error(err); }
-  //   );
-  // }
-  usersGet(projectInfo: boolean): void {
+    this.userRestApiService.usersUserIdGet(params).pipe(
+      take(1)
+    ).subscribe((res: User) => {
+      console.log("사용자 조회");
+      console.log(res);
+      this.user = res;
+    },
+      (err) => { console.error(err); }
+    );
+
   }
 }

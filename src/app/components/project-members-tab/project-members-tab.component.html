@@ -48,8 +48,7 @@
                                 <ng-container matColumnDef="delete">
                                     <mat-cell *matCellDef="let element">
                                         <ng-container *ngIf="!isOwner(element.user_id); else ownerTemplate">
-                                            <button type="button" class="btn btn-sm btn-danger"
-                                                (click)="deleteMember(element);">Delete</button>
+                                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteMember(element);">Delete</button>
                                         </ng-container>
                                         <ng-template #ownerTemplate>
                                             <span>Owner</span>
@@ -67,7 +66,7 @@
             <div class="row form-group">
                 <div class="col-xl-12">
                     <mat-accordion>
-                        <mat-expansion-panel>
+                        <mat-expansion-panel expanded>
                             <mat-expansion-panel-header [expandedHeight]="expandedHeight">
                                 <mat-panel-title>
                                     <span>Dev / {{devMemberDataSource.data.length}}</span>
@@ -97,8 +96,7 @@
 
                                 <ng-container matColumnDef="delete">
                                     <mat-cell *matCellDef="let element">
-                                        <button type="button" class="btn btn-sm btn-danger"
-                                            (click)="deleteMember(element);">Delete</button>
+                                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteMember(element);">Delete</button>
                                     </mat-cell>
                                 </ng-container>
 
@@ -114,7 +112,7 @@
                 <div class="col-xl-12">
 
                     <mat-accordion>
-                        <mat-expansion-panel>
+                        <mat-expansion-panel expanded>
                             <mat-expansion-panel-header [expandedHeight]="expandedHeight">
                                 <mat-panel-title>
                                     <span>Ops / {{opsMemberDataSource.data.length}}</span>
@@ -144,8 +142,7 @@
 
                                 <ng-container matColumnDef="delete">
                                     <mat-cell *matCellDef="let element">
-                                        <button type="button" class="btn btn-sm btn-danger"
-                                            (click)="deleteMember(element);">Delete</button>
+                                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteMember(element);">Delete</button>
                                     </mat-cell>
                                 </ng-container>
 

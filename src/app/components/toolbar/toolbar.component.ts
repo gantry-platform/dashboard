@@ -17,7 +17,7 @@ export class ToolbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.userName = this.userService.userInfo.name;
+    this.userName = this.userService.user.user_name;
   }
 
   logout() {
