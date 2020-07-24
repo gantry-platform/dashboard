@@ -10,4 +10,5 @@ RUN npm run $BUILD_TYPE
 # Stage 2
 FROM nginx:alpine
 COPY --from=app-dashboard /app/dist/dashboard /usr/share/nginx/html
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
