@@ -33,6 +33,10 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { CreateProjectPopupComponent } from './components/create-project-popup/create-project-popup.component';
 import { FormFieldErrorComponent } from './components/form-field-error/form-field-error.component';
 import { FormDirective } from './directives/form.directive';
+import { ProjectPipelinePageComponent } from './components/project-pipeline-page/project-pipeline-page.component';
+import { ProjectPipelineListComponent } from './components/project-pipeline-list/project-pipeline-list.component';
+import { ProjectPipelineCreateComponent } from './components/project-pipeline-create/project-pipeline-create.component';
+import { ProjectPipelineDetailComponent } from './components/project-pipeline-detail/project-pipeline-detail.component';
 
 const keycloakService = new KeycloakService();
 
@@ -59,6 +63,10 @@ const keycloakService = new KeycloakService();
     CreateProjectPopupComponent,
     FormFieldErrorComponent,
     FormDirective,
+    ProjectPipelinePageComponent,
+    ProjectPipelineListComponent,
+    ProjectPipelineCreateComponent,
+    ProjectPipelineDetailComponent
   ],
   imports: [
     BrowserModule,

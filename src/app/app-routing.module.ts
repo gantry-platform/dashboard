@@ -8,6 +8,7 @@ import { ProjectPageComponent } from './components/project-page/project-page.com
 import { ProjectPodsPageComponent } from './components/project-pods-page/project-pods-page.component';
 import { ProjectServicesPageComponent } from './components/project-services-page/project-services-page.component';
 import { ProjectMembersPageComponent } from './components/project-members-page/project-members-page.component';
+import { ProjectPipelinePageComponent } from './components/project-pipeline-page/project-pipeline-page.component';
 
 const routes: Routes = [
   { path: '', component: DashboardPageComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'pods', pathMatch: 'full' },
       { path: 'pods', component: ProjectPodsPageComponent, data: { 'breadcrumb': 'Pods' } },
       { path: 'services', component: ProjectServicesPageComponent, data: { 'breadcrumb': 'Services' } },
+      { path: 'pipeline', component: ProjectPipelinePageComponent, data: { 'breadcrumb': 'Pipeline' } },
       { path: 'members', component: ProjectMembersPageComponent, data: { 'breadcrumb': 'Members' } }
     ]
   },

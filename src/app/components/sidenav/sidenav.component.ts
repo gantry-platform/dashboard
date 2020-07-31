@@ -44,6 +44,7 @@ export class SidenavComponent implements OnInit {
     this.appitems = [
       { label: 'Pods', link: this.itemLink('pods') },
       { label: 'Services', link: this.itemLink('services') },
+      { label: 'Pipeline', link: this.itemLink('pipeline') },
       // { label: 'Container Images', link: this.itemLink('members') },
       // {
       //   label: 'Deployments',

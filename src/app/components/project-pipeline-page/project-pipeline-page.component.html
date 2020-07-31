@@ -1,0 +1,30 @@
+<div class="wrapper">
+    <div [hidden]="detailOpened">
+
+        <div class="row form-group">
+            <div class="col mt-auto mb-auto">
+                <span class="title">Pipeline</span>
+            </div>
+            <div class="col mt-auto mb-auto">
+                <div class="select-view text-right">
+                    <button type="button" class="btn btn-sm btn-primary" (click)="createPipeline();">Create Pipeline</button>
+                </div>
+            </div>
+        </div>
+
+        <app-project-pipeline-list (result)="outputPipelineList($event)"></app-project-pipeline-list>
+        
+    </div>
+
+    <ng-container *ngIf="detailOpened">
+        
+        <ng-container *ngIf="rowData == null; else pipelineDetail">
+            <app-project-pipeline-create [data]="rowData" (result)="outputPipelineCreate($event)"></app-project-pipeline-create>
+        </ng-container>
+        
+        <ng-template #pipelineDetail>
+            <app-project-pipeline-detail [data]="rowData" (result)="outputPipelineDetail($event)"></app-project-pipeline-detail>
+        </ng-template>
+
+    </ng-container>
+</div>

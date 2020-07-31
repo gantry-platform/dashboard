@@ -1,0 +1,26 @@
+mat-table {
+    background-color: #002141 !important;
+}
+
+mat-header-row {
+    border-bottom: 1px solid #ffffff;
+}
+
+
+mat-table mat-header-cell,
+mat-table mat-cell {
+    color: #ffffff !important;
+}
+
+.mat-header-cell {
+    font-size: 16px;
+}
+
+.mat-header-cell, 
+.mat-cell {
+    justify-content: center;
+}
+
+mat-icon {
+    cursor: pointer;
+}
