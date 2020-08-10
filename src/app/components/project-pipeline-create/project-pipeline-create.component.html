@@ -1,10 +1,145 @@
-<h2>Create Pipeline</h2>
+<div class="row">
+    <div class="col-lg-12">
 
-<div>
-    <h3>{{data | json}}</h3>
+        <form [formGroup]="form" autocomplete="off" novalidate>
+
+            <h2>Create Pipeline</h2>
+
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label>Pipeline Name</label>
+                    <input type="text" formControlName="pipelineName" class="form-control transparent" placeholder="Pipeline Name">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label>Source Type</label>
+                    <mat-select formControlName="sourceType" class="form-control transparent" (selectionChange)="selectionChangeSourceType($event.value)">
+                        <mat-option value="">Select</mat-option>
+                        <mat-option [value]="sourceType" *ngFor="let sourceType of sourceTypes">
+                            {{ sourceType }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+
+            <ng-container *ngIf="currentSourceType == SourceTypeDeclaredInComponent.git">
+                <ng-container *ngTemplateOutlet="sourceTypeGitTemplate"></ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="currentSourceType == SourceTypeDeclaredInComponent.image">
+                <ng-container *ngTemplateOutlet="sourceTypeDockerImageTemplate"></ng-container>
+            </ng-container>
+
+            <mat-divider class="mt-4 mb-4"></mat-divider>
+
+            <h2>Deployment</h2>
+
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label>Application Name</label>
+                    <input type="text" formControlName="applicationName" class="form-control transparent" placeholder="Application Name">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label>CPU</label>
+                    <input type="text" class="form-control transparent" placeholder="cpu">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label>Memory</label>
+                    <input type="text" class="form-control transparent" placeholder="memory">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label>Container Storage</label>
+                    <input type="text" class="form-control transparent" placeholder="container storage">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label>Persistent Storage</label>
+                    <input type="text" class="form-control transparent" placeholder="persistent storage">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label>Replicas</label>
+                    <input type="text" class="form-control transparent" placeholder="Replicas">
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-lg-12 form-group text-center">
+                    <button type="button" class="btn btn-secondary wide" (click)="cancel()">Cancel</button>
+                    <button type="button" class="btn btn-primary wide" (click)="save()">Save</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
 </div>
 
-<div>
-    <button class="btn btn-secondary wide" (click)="cancel()">Cancel</button>
-    <button class="btn btn-primary wide" (click)="save()">Save</button>
-</div>
+<ng-template #sourceTypeGitTemplate>
+    <div class="row">
+        <div class="col-lg-12 form-group">
+            <label>Gantry clone source code from your repository</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3 form-group">
+            <label>Git Repository URL</label>
+            <input type="text" class="form-control transparent" placeholder="Git Repository URL">
+        </div>
+        <div class="col-lg-3 form-group">
+            <label>Branch, Tag or Commit</label>
+            <input type="text" class="form-control transparent" placeholder="Branch, Tag or Commit">
+        </div>
+        <div class="col-lg-3 form-group">
+            <label>Dockerfile Path</label>
+            <input type="text" class="form-control transparent" placeholder="Dockerfile Path">
+        </div>
+        <div class="col-lg-3 form-group">
+            <label>Builder</label>
+            <mat-select class="form-control transparent">
+                <mat-option value="">Select</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-lg-3 form-group">
+            <label>Version</label>
+            <mat-select class="form-control transparent">
+                <mat-option value="">Select</mat-option>
+            </mat-select>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #sourceTypeDockerImageTemplate>
+    <div class="row">
+        <div class="col-lg-12 form-group">
+            <label>Pipeline trigger</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 form-group">
+            <mat-radio-group color="primary" aria-label="Select an option">
+                <mat-radio-button value="new">By new image</mat-radio-button>
+                <mat-radio-button value="manual">By manual</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3 form-group">
+            <label>Image Repository</label>
+            <mat-select class="form-control transparent">
+                <mat-option value="">Select</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-lg-3 form-group">
+            <label>Tags</label>
+            <mat-select class="form-control transparent">
+                <mat-option value="">Select</mat-option>
+            </mat-select>
+        </div>
+    </div>
+</ng-template>

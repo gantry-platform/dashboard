@@ -19,7 +19,7 @@
     <ng-container *ngIf="detailOpened">
         
         <ng-container *ngIf="rowData == null; else pipelineDetail">
-            <app-project-pipeline-create [data]="rowData" (result)="outputPipelineCreate($event)"></app-project-pipeline-create>
+            <app-project-pipeline-create (result)="outputPipelineCreate($event)"></app-project-pipeline-create>
         </ng-container>
         
         <ng-template #pipelineDetail>

@@ -3,15 +3,15 @@
     <h2 mat-dialog-title class="title">Create Project</h2>
 
     <div mat-dialog-content>
-        <div class="row form-group">
-            <div class="col-xl-12" [ngClass]="displayFieldCss('name')">
+        <div class="row">
+            <div class="col-xl-12 form-group" [ngClass]="displayFieldCss('name')">
                 <label><mat-icon class="star">star</mat-icon> Name</label>
                 <input class="form-control transparent" type="text" formControlName="name">
             </div>
         </div>
 
-        <div class="row form-group">
-            <div class="col-xl-12">
+        <div class="row">
+            <div class="col-xl-12 form-group">
                 <label>Description</label>
                 <textarea class="form-control transparent" rows="4" type="text" formControlName="description"></textarea>
             </div>
